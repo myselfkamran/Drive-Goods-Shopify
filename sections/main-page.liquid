@@ -1,0 +1,30 @@
+<div class="container gradient color-{{ section.settings.section_color_scheme }} {% if section.settings.center %} container--medium {% else %} container--large {% endif %} container--vertical-space-small main-page gutter-bottom--page">
+
+  <h1 class="title h2">{{ page.title | escape }}</h1>
+
+  <div class="rte">
+    {{ page.content }}
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.main-page.name",
+    "class": "section--remove-bottom-margin-after",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "center",
+        "label": "t:sections.local-extra-words.sections.main-page.settings.center.label",
+        "default": false
+      },
+      {
+        "type": "color_scheme",
+        "id": "section_color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,1076 @@
+<style>
+  /* .product-hover-details:hover {
+    outline: 2px solid {{ section.settings.right_product_outline_color }};
+    opacity: 0.6;
+  } */
+  #products-list .product-item {
+    outline: 2px solid {{ section.settings.right_product_outline_color }};
+    /* opacity: 0.6; */
+  }
+  #add-to-cart-button {
+    color: {{ section.settings.add_to_cart_text_color }};
+    background: {{ section.settings.add_to_cart_bg_color }};
+    transition: all 0.5s ease-in-out;
+  }
+  #add-to-cart-button:hover {
+    color: {{ section.settings.add_to_cart_text_color_on_hover }};
+    background: {{ section.settings.add_to_cart_bg_color_on_hover }};
+  }
+</style>
+<div class="w-full p-2">
+  <div
+    id="items-list"
+    class="mx-auto collection-list-main-wrap container--large rounded-2xl {% unless section.settings.remove_margin %} container--vertical-space {% endunless %} container--has-background remove-empty-space"
+    style="{% if section.settings.bg_color_or_img == 'bg_color' %}background: {{ section.settings.gradient_background }};{% endif %}"
+  >
+    <style>
+     .section-heading .section-heading__text .section-heading__title {
+        font-size: {{ section.settings.heading_size | times: 0.75 | round: 0 }}px !important;
+      }
+      .section-heading .section-heading__text .section-heading__subheading {
+        font-size: {{ section.settings.sub_heading_size | times: 0.75 | round: 0 }}px !important;
+      }
+      @media screen and (min-width: 750px) {
+        .section-heading .section-heading__text .section-heading__title {
+          font-size: {{ section.settings.heading_size }}px !important;
+        }
+        .section-heading .section-heading__text .section-heading__subheading {
+          font-size: {{ section.settings.sub_heading_size }}px !important;
+        }
+      }
+    </style>
+    <div class="heading_btn flex flex-col">
+      {%- render 'section-heading',
+        heading: section.settings.heading,
+        subheading: section.settings.subheading,
+        button: section.settings.show_view_all,
+        button_label: 'collections.view_all_collections',
+        link: routes.collections_url,
+        heading_tag: section.settings.seo_h_tag,
+        layout: section.settings.section_heading_layout
+      -%}
+      <style>
+        {% if section.settings.pop_btn != blank %}
+          #items-list .camp-button {
+            font-family: "Readex Pro", sans-serif;
+            background-color: {{ section.settings.pop_up_btn_bg_color }};
+            padding: 1rem;
+            line-height: 1;
+            border-radius: 48px;
+            font-size: 18px;
+            font-weight: 500;
+            color: {{ section.settings.pop_up_btn_text_color }};
+            border: 2px solid {{ section.settings.pop_up_btn_text_color }};
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+            text-wrap: nowrap;
+          }
+          #items-list .camp-button-submit {
+            font-family: "Readex Pro", sans-serif;
+            background-color: {{ section.settings.pop_up_btn_bg_color }};
+            padding: 1rem;
+            line-height: 1;
+            border-radius: 48px;
+            font-size: 18px;
+            font-weight: 500;
+            color: {{ section.settings.pop_up_btn_text_color }};
+            border: 2px solid {{ section.settings.pop_up_btn_text_color }};
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+          }
+        {% endif %}
+        
+        #items-list .camp-button:hover,
+        #items-list .camp-button-submit:hover {
+          background-color: {{ section.settings.hover_pop_up_btn_bg_color }};
+          border-color: {{ section.settings.hover_pop_up_btn_bg_color }};
+          color: {{ section.settings.hover_pop_up_btn_text_color }};
+        }
+        
+        #items-list .camp-popup {
+          position: fixed;
+          top: 0; left: 0;
+          width: 100vw; 
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        
+        #items-list .popup-img-content {
+          width: 90%;
+          max-width: 500px;
+          position: relative;
+        }
+        
+        #items-list .popup-content {
+          background: {{ section.settings.d_pop_up_bg_color }};
+          padding: 1.5rem;
+          border-radius: 12px;
+          width: 90%;
+          max-width: 500px;
+          position: relative;
+        }
+        
+        #items-list .custom-select-wrapper {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+        }
+        
+        #items-list .custom-select-wrapper select {
+          background-image: none !important;
+        }
+        
+        #items-list .select-arrow {
+          position: absolute;
+          pointer-events: none;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        
+        #items-list .close {
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+          font-size: 1.5rem;
+          cursor: pointer;
+          width: fit-content;
+          height: fit-content;
+          display: flex;
+          line-height: .6;
+        }
+          
+        #items-list .hidden {
+          display: none;
+        }
+        #camp-popup .popup-content input,
+        #camp-popup .popup-content select {
+          font-family: "Readex Pro", sans-serif;
+        }
+        #camp-popup .popup-content label {
+          font-size:14px;
+          font-weight: 400;
+          color: #424242;
+          font-family: "Readex Pro", sans-serif;
+        }
+      </style>
+      <!-- BUTTON TO OPEN IMAGE POPUP -->
+      {% if section.settings.show_popup_button == true %}
+      <div class="gutter-bottom--page flex items-center justify-center text-center">
+        {% if section.settings.pop_btn != blank %}
+          <button id="open-image-popup" class="camp-button">{{ section.settings.pop_btn }}</button>
+        {% endif %}
+      </div>
+      {% endif %}
+      
+      <!-- IMAGE SELECTION POPUP -->
+      <div id="image-popup" class="camp-popup hidden">
+        <div class="popup-img-content">
+          <div class="flex flex-col items-center">
+            <div class="flex justify-center">
+              {% for block in section.blocks %}
+                {% assign content = block.settings.popup_second_step_dropdown_text | downcase | strip %}
+                {% assign image = block.settings.popup_first_step_img %}
+                {% assign pdf_url = block.settings.download_img_as_pdf_url %}
+      
+                {% if image != blank and content != blank %}
+                  <div class="flex image-select cursor-pointer" data-collection="{{ content }}" data-url="{{ pdf_url }}">
+                    <img src="{{ image | img_url: 'master' }}" alt="{{ content }}" />
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- FORM POPUP -->
+      {% comment %}
+      <div id="form-popup" class="camp-popup hidden">
+        <div class="popup-content">
+          <span id="close-form-popup" class="close">&times;</span>
+      
+          {%- form 'contact', class: 'isolate' -%}
+            <div class="flex mb-4 gap-4">
+              <div class="flex flex-col gap-2 w-full">
+                <label>Name</label>
+                <input class="w-full bg-transparent" type="text" name="contact[name]" placeholder="Your Name" required />
+              </div>
+              <div class="flex flex-col gap-2 w-full">
+                <label>Email</label>
+                <input class="w-full bg-transparent" type="email" name="contact[email]" placeholder="Your Email" required />
+              </div>
+            </div>
+      
+            <div class="custom-select-wrapper mb-4">
+              <select name="contact[collection]" class="select bg-transparent" required>
+                {% for block in section.blocks %}
+                  {% assign dropdown_text = block.settings.popup_second_step_dropdown_text | strip %}
+                  {% if dropdown_text != blank %}
+                    <option value="{{ dropdown_text }}" {% if forloop.first %}selected{% endif %}>
+                      {{ dropdown_text }}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+              <svg class="select-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+      
+            <div class="flex items-center justify-center text-center">
+              <button type="submit" class="camp-button-submit w-full mt-2">{{ section.settings.pop_btn }}</button>
+            </div>
+          {%- endform -%}
+        </div>
+      </div>
+      {% endcomment %}
+      <!-- SCRIPT -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const imagePopup = document.getElementById("image-popup");
+          const formPopup = document.getElementById("form-popup");
+      
+          const openImageBtn = document.getElementById("open-image-popup");
+          const closeFormBtn = document.getElementById("close-form-popup");
+      
+          openImageBtn?.addEventListener("click", () => {
+            imagePopup.classList.remove("hidden");
+          });
+      
+          closeFormBtn?.addEventListener("click", () => {
+            formPopup.classList.add("hidden");
+          });
+      
+          window.addEventListener("click", function (event) {
+            if (event.target === imagePopup) imagePopup.classList.add("hidden");
+            if (event.target === formPopup) formPopup.classList.add("hidden");
+          });
+      
+          // Handle image selection and switch to form popup
+          const imageOptions = document.querySelectorAll(".image-select");
+      
+          imageOptions.forEach(option => {
+            option.addEventListener("click", () => {
+              const selectedValue = option.dataset.collection;
+              const pdfUrl = option.dataset.url;
+      
+              // Open the PDF in new tab
+              if (pdfUrl) window.open(pdfUrl, "_blank");
+      
+              // Set dropdown to selected collection
+              const select = document.querySelector('select[name="contact[collection]"]');
+              if (select) {
+                for (let i = 0; i < select.options.length; i++) {
+                  if (select.options[i].value.toLowerCase().trim() === selectedValue.toLowerCase().trim()) {
+                    select.selectedIndex = i;
+                    break;
+                  }
+                }
+              }
+      
+              // Switch popups
+              imagePopup.classList.add("hidden");
+              formPopup.classList.remove("hidden");
+            });
+          });
+        });
+      </script>
+
+    </div>
+    {% if section.settings.bg_color_or_img == 'bg_img' %}
+    <style>
+      #items-list .bg_img {
+        background-image: url({{ section.settings.sec_bg_img | img_url: 'master' }}); 
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat;
+        width: 100%;
+        border-radius: 10px;
+      }
+      #items-list .bg_img {
+        min-height: 220px;
+        position: relative;
+      }
+      @media screen and (min-width: 1024px) {
+        {% if section.settings.style_layout == 'row' %}
+          #items-list {
+            display: block !important;
+          }
+          #items-list .section-heading .section-heading__text {
+            text-align: center !important;
+            width: 70% !important;
+            margin: 0 auto !important;
+          }
+        {% endif %}
+        #items-list {
+          display:flex;
+          align-items: center;
+          justify-content: center;
+          gap: {{ section.settings.column_gap }}px;
+        }
+        #items-list .heading_btn {
+          flex: 0 25%;
+        }
+        #items-list .heading_btn .gutter-bottom--page {
+          justify-content: flex-start;
+        }
+        #items-list .bg_img {
+          flex: 0 75%;
+        }
+        #items-list .section-heading .section-heading__text {
+          text-align: left;
+        }
+      }
+      #items-list .section-heading .section-heading__text .section-heading__title {
+        line-height: {{ section.settings.line_height_of_heading }};
+        font-family: 'Readex Pro';
+        font-weight: 500;
+      }
+      #items-list .section-heading .section-heading__text .section-heading__subheading {
+        line-height: {{ section.settings.line_height_of_sub_heading }};
+        font-family: 'Readex Pro';
+        font-weight: 400;
+        color: #1D1852;
+      }
+      @media screen and (min-width: 768px) {
+        #items-list .bg_img   { 
+          min-height: 515px;
+        }
+      }
+    </style>
+    {% endif %}
+    <div class="bg_img">
+      {%- if section.settings.style == 'slider' -%}
+        <css-slider
+          data-options='
+            {
+              "selector": ".js-collection-item",
+              "groupCells": true,
+              "indexNav": true,
+              "navigationDOM": "<span class=\"css-slider-button css-slider-prev\" style=\"display:none\"><svg fill=\"none\" height=\"13\" viewBox=\"0 0 8 13\" width=\"8\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"#000\" ><path d=\"m7.91419 1.41431-6.48529 6.48528-1.4142102-1.41422 6.4852802-6.48527702z\"/><path d=\"m6.48528 12.9849-6.48528027-6.48532 1.41421027-1.41421 6.48528 6.48523z\"/></g></svg></span><span class=\"css-slider-button css-slider-next\" style=\"display:none\"><svg width=\"9\" height=\"13\" viewBox=\"0 0 9 13\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0.914169 11.5857L7.39945 5.10041L8.81367 6.51463L2.32838 12.9999L0.914169 11.5857Z\" fill=\"black\"/><path d=\"M2.34307 0.0151367L8.82835 6.50042L7.41414 7.91463L0.928857 1.42935L2.34307 0.0151367Z\" fill=\"black\"/></svg></span>"
+            }
+          '
+          class="css-slider css-slider--bottom-navigation"
+          id="css-slider-{{ section.id }}"
+        >
+          {%- render 'custom-shadow', section_id: section.id -%}
+      {%- endif -%}
+
+      <div class="grid {% if section.settings.style == 'slider' %} grid--slider {% elsif section.settings.style == 'transition' %} transition {% else %}grid--layout {% endif %} {{ section.settings.layout }}">
+        {%- assign layout = section.settings.layout -%}
+
+        {%- assign sizes = '' -%}
+        {%- if layout contains 'grid-palm-2' -%}
+          {%- assign sizes = '(max-width: 467px) calc((100vw - 40px) / 2)' -%}
+        {%- endif -%}
+        {%- if layout contains 'grid-lap-3' -%}
+          {%- assign sizes = sizes | append: ', (max-width: 767px) calc((100vw - 60px) / 3)' -%}
+        {%- elsif layout contains 'grid-lap-1' -%}
+          {%- assign sizes = sizes | append: ', (max-width: 767px) calc(100vw - 40px)' -%}
+        {%- endif -%}
+        {%- if layout contains 'grid-5' -%}
+          {%- assign sizes = sizes
+            | append: ', (max-width: 1023px) calc((100vw - 80px) / 3), (max-width: 1280px) calc((100vw - 160px) / 6), 190px'
+          -%}
+        {%- elsif layout contains 'grid-4' -%}
+          {%- assign sizes = sizes | append: ', (max-width: 1280px) calc((100vw - 100px) / 4), 300px' -%}
+        {%- elsif layout contains 'grid-3' -%}
+          {%- assign sizes = sizes | append: ', (max-width: 1280px) calc((100vw - 100px) / 3), 420px' -%}
+        {%- elsif layout contains 'grid-2' -%}
+          {%- assign sizes = sizes | append: ', (max-width: 1280px) calc((100vw - 100px) / 2), 620px' -%}
+        {%- endif -%}
+        {%- assign sizes = sizes | prepend: 'sizes="' | append: '"' -%}
+
+        {%- for block in section.blocks -%}
+          <div
+            class="item cursor-pointer bg-transparent"
+            data-collection-handle="{{ collections[block.settings.collection].handle }}"
+            data-background-color1="{{ block.settings.left_background_color }}"
+            data-background-color2="{{ block.settings.right_background_color }}"
+            data-collection-name="{{ collections[block.settings.collection].title }}"
+          >
+            {%- render 'custom-collection-item',
+              collection_name: block.settings.collection_name,
+              collection: collections[block.settings.collection],
+              index: forloop.index,
+              image: block.settings.image,
+              sizes: sizes,
+              font_color: block.settings.font_color,
+              font_bg_color: block.settings.text_bg_color,
+              svg_color: block.settings.svg_color,
+              svg_bg_color: block.settings.svg_bg_color,
+              transition: section.settings.style,
+              top: block.settings.top_position,
+              left: block.settings.left_position,
+              text_adjustment: block.settings.text_position,
+              image_aspect_ratio: section.settings.image_aspect_ratio,
+              bg_img: section.settings.bg_color_or_img
+            -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.layout == 'slider' -%}
+        </css-slider>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_view_all and section.settings.section_heading_layout contains 'center' and section.settings.bg_color_or_img == 'bg_color' -%}
+      <div class="gutter-top--large align-content align-content--horizontal-center">
+        <div class="button button--outline button--regular" href="{{ routes.collections_url }}">
+          {{ 'collections.view_all_collections' | t }}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+  <br>
+  <div id="bundle-popup-overlay"
+       class="fixed flex items-center justify-center hidden"
+       style="position: fixed; background-color: rgba(0, 0, 0, 0.5); top:0; left: 50%; transform: translateX(-50%); width: 100%; z-index: 999999; height: 100%;">
+    <div class="rounded-2xl max-w-6xl p-5 relative overflow-y-auto" style="height: 100%; max-height: 90vh; background: {{ section.settings.pop_up_bg_color }};">
+      <!-- Close Button -->
+      <button id="close-popup" class="absolute top-2 right-3 text-black text-2xl font-bold">&times;</button>
+      <!-- Your existing popup content goes here -->
+      <div class="flex flex-col xl:flex-row-reverse justify-evenly w-full h-full xl:space-x-4">
+        <div
+          id="products-list"
+          class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4 mx-auto xl:mx-0 !hidden p-5 !rounded-2xl  w-full xl:w-[50%] h-fit"
+          style="height: 100%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none; cursor: pointer;"
+        >
+          <!-- Products will be displayed here -->
+        </div>
+        <br>
+    
+        <div id="selection-box" class="flex flex-col box w-full xl:w-[600px] !hidden !sticky xl:sticky xl:top-0 bottom-0 !z-[200] xl:mb-0" style="margin: 0;">
+          <div id="bundle-box-color" class="bg-[#F9E9CF] p-4 xl:p-10 rounded-t-2xl sticky flex justify-between">
+            <div>
+              <p class="text-left font-bold text-xl xl:text-4xl mb-2 Readex_Pro" id="bundle-title">Product Bundle</p>
+            </div>
+            <div>
+              <div class="flex flex-col items-center rounded-b-2xl">
+                <div class="flex items-center">
+                  <p class="font-bold text-black text-xl xl:text-4xl Readex_Pro" id="total-price">$0.00</p>
+                </div>
+                <button
+                  id="add-to-cart-button"
+                  class="rounded-full bg-[#174188] text-white h-10 xl:h-14 w-36 text-center font-semibold text-xl Readex_Pro"
+                >
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            id="bundle-box"
+            style="cursor: pointer;"
+            class="element bg-white rounded-b-2xl overflow-y-scroll scroll-bar-width-none w-full container--large grid grid-cols-1 gap-10 w-fit xl:h-fit h-fit !relative"
+          >
+            <div
+              id="selected-products"
+              class="flex w-full flex-shrink-0 overflow-x-auto scroll-bar-width-none space-x-5 p-2 h-fit xl:space-x-0 xl:mb-20 xl:grid xl:grid-cols-3 xl:gap-5 xl:overflow-x-hidden"
+            >
+              <!-- Initial placeholder blocks for selected products -->
+              <div
+                class="placeholder-item h-24 w-24 xl:h-40 xl:w-40 bg-white border-2 border-dashed border-gray-300 rounded-xl"
+              ></div>
+              <div
+                class="placeholder-item h-24 w-24 xl:h-40 xl:w-40 bg-white border-2 border-dashed border-gray-300 rounded-xl"
+              ></div>
+              <div
+                class="placeholder-item h-24 w-24 xl:h-40 xl:w-40 bg-white border-2 border-dashed border-gray-300 rounded-xl"
+              ></div>
+              <div
+                class="placeholder-item h-24 w-24 xl:h-40 xl:w-40 bg-white border-2 border-dashed border-gray-300 rounded-xl"
+              ></div>
+              <div
+                class="placeholder-item h-24 w-24 xl:h-40 xl:w-40 bg-white border-2 border-dashed border-gray-300 rounded-xl"
+              ></div>
+              <div
+                class="placeholder-item h-24 w-24 xl:h-40 xl:w-40 bg-white border-2 border-dashed border-gray-300 rounded-xl"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
+
+{%- if section.settings.section_background_color != 'rgba(0,0,0,0)' -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .container--has-background {
+      --color-background-section: {{ section.settings.section_background_color }};
+    }
+  {% endstyle %}
+{%- endif -%}
+
+{%- if section.settings.section_heading_color != 'rgba(0,0,0,0)' -%}
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      --color-text-main: {{ section.settings.section_heading_color }};
+    }
+  {% endstyle %}
+{%- endif -%}
+
+<style>
+  html body .collection-list-main-wrap .lazy-image.lazy-image--animation.lazyloaded {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+  }
+  .element {
+    border-color: #e5e5e5;
+    border-width: 2px;
+    border-style: solid;
+  }
+  .bundle-border {
+    border-color: #a3a3a3;
+    border-width: 3px;
+    border-style: dashed;
+  }
+
+  .bundle-box {
+    border-color: #a3a3a3;
+    border-width: 3px;
+    border-style: dashed;
+    padding: 10px;
+    border-radius: 1rem;
+  }
+  .remove-icon {
+    width: 24px;
+    height: 24px;
+    fill: white;
+    color: white;
+    cursor: pointer;
+    background-color: #a3a3a3;
+  }
+  .placeholder-item {
+    border: 2px dashed #a3a3a3;
+    border-radius: 1rem;
+  }
+
+  select {
+    background-image: url('data:image/svg+xml;utf8,<svg width="13" height="8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.414.086 7.9 6.57 6.485 7.985 0 1.5 1.414.086Z" fill="%23ffffff"/><path d="M12.985 1.515 6.5 8 5.085 6.586 11.571.101l1.414 1.414Z" fill="%23ffffff"/></svg>') !important;
+  }
+  @media (min-width: 1440px) {
+    #selection-box #selected-products {
+      grid-template-columns: none;
+    }
+    #selected-products .placeholder-item,
+    #selected-products .selected-product-item {
+      width: 100%;
+    }
+  }
+  @media (max-width: 767px) {
+    .box {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: fit-content;
+      z-index: 10;
+    }
+    #bundle-title, 
+    #add-to-cart-button {
+      font-size: 1rem;
+    } 
+    #bundle-box {
+      overflow-y: auto;
+      height: 8rem;
+    }
+    #selected-products {
+      overflow-y: scroll;
+      flex-direction: column;
+      gap: 10px;
+      height: 8rem;
+    }
+    #selected-products .placeholder-item {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      width: unset;
+    }
+    #selected-products .placeholder-item,
+    #selected-products .selected-product-item {
+      height: 7rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Custom Collection List",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:local-march-update.labels.heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Collections"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading text size",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "line_height_of_heading",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height of heading text",
+      "default": 1.3
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "range",
+      "id": "sub_heading_size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub-heading text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "line_height_of_sub_heading",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height of sub-heading text",
+      "default": 1.7
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popup_button",
+      "label": "Show Popup Button",
+      "default": false,
+    },
+    {
+      "type": "text",
+      "id": "pop_btn",
+      "label": "Pop-up button text",
+      "default": "Download your camp list"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' Button (When section as Background Color)",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "section_heading_layout",
+      "label": "Heading Layout",
+      "options": [
+        {
+          "value": "section-heading--left",
+          "label": "Left"
+        },
+        {
+          "value": "section-heading--center",
+          "label": "Center"
+        }
+      ],
+      "default": "section-heading--left"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Layout Style",
+      "options": [
+        {
+          "value": "slider",
+          "label": "Slider"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "transition",
+          "label": "Transition"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "style_layout",
+      "label": "Flex Style",
+      "options": [
+        {
+          "value": "column",
+          "label": "Column"
+        },
+        {
+          "value": "row",
+          "label": "Row"
+        }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Column gap",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Grid Layout",
+      "options": [
+        {
+          "value": "grid-2 grid-lap-1",
+          "label": "2 Columns"
+        },
+        {
+          "value": "grid-3 grid-palm-2",
+          "label": "3 Columns"
+        },
+        {
+          "value": "grid-4 grid-lap-3 grid-palm-2",
+          "label": "4 Columns"
+        },
+        {
+          "value": "grid-5 grid-portable-4 grid-lap-3 grid-palm-2",
+          "label": "5 Columns"
+        }
+      ],
+      "default": "grid-5 grid-portable-4 grid-lap-3 grid-palm-2"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        {
+          "value": "1.33333",
+          "label": "4:3"
+        },
+        {
+          "value": "1",
+          "label": "1:1"
+        },
+        {
+          "value": "0.83333",
+          "label": "5:6"
+        },
+        {
+          "value": "0.666667",
+          "label": "2:3"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "color_background",
+      "id": "gradient_background",
+      "label": "Section Background as Gradient",
+      "default": "linear-gradient(103.11deg, #F8E8CE 9.72%, #97D4FF 56.46%, #99E1DF 94.18%)"
+    },
+    {
+      "type": "image_picker",
+      "id": "sec_bg_img",
+      "label": "Backgroud Image"
+    },
+    {
+      "type": "select",
+      "id": "bg_color_or_img",
+      "label": "Select either a background color or a background image",
+      "options": [
+        {
+          "value": "bg_color",
+          "label": "Background Color"
+        },
+        {
+          "value": "bg_img",
+          "label": "Background Image"
+        }
+      ],
+      "default": "bg_color"
+    },
+    {
+      "type": "color",
+      "id": "section_heading_color",
+      "label": "Heading Text Color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "pop_up_bg_color",
+      "label": "Pop up Background Color",
+      "default": "#fff"
+    },
+    {
+      "type": "checkbox",
+      "id": "remove_margin",
+      "label": "Remove Margin",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "right_product_outline_color",
+      "label": "Right Product Card Outline Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_bg_color",
+      "label": "ADD to cart button background color",
+      "default": "#1d1752"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_bg_color_on_hover",
+      "label": "On hover ADD to cart button background color",
+      "default": "#cdd780"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_text_color",
+      "label": "ADD to cart button text color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_text_color_on_hover",
+      "label": "On hover ADD to cart button text color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "pop_up_btn_bg_color",
+      "label": "Pop-up button background color",
+      "default": "#CDD780"
+    },
+    {
+      "type": "color",
+      "id": "pop_up_btn_text_color",
+      "label": "Pop-up button text color",
+      "default": "#1D1752"
+    },
+    {
+      "type": "color",
+      "id": "hover_pop_up_btn_bg_color",
+      "label": "On hover pop-up button background color",
+      "default": "#1D1752"
+    },
+    {
+      "type": "color",
+      "id": "hover_pop_up_btn_text_color",
+      "label": "On hover pop-up button text color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "d_pop_up_bg_color",
+      "label": "Download your clamp list pop-up background color",
+      "default": "#fff"
+    },
+    {
+      "type": "select",
+      "id": "seo_h_tag",
+      "label": "SEO Heading Tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "span",
+          "label": "Span"
+        }
+      ],
+      "default": "h2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "collection_name",
+          "label": "Collection Name"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "color",
+          "id": "left_background_color",
+          "label": "Left Background Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "right_background_color",
+          "label": "Right Background Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "font_color",
+          "label": "Font Color (Bundle Box)",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "text_bg_color",
+          "label": "Text Background Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "svg_color",
+          "label": "SVG Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "svg_bg_color",
+          "label": "SVG Background Color",
+          "default": "#1D1852"
+        },
+        {
+          "type": "range",
+          "id": "top_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Top to bottom position",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "left_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Left to right position",
+          "default": 0
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text Position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "top_left",
+              "label": "Top Left"
+            },
+            {
+              "value": "top_center",
+              "label": "Top Center"
+            },
+            {
+              "value": "top_right",
+              "label": "Top Right"
+            },
+            {
+              "value": "bottom_left",
+              "label": "Bottom Left"
+            },
+            {
+              "value": "bottom_center",
+              "label": "Bottom Center"
+            },
+            {
+              "value": "bottom_right",
+              "label": "Bottom Right"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "header",
+          "content": "Camp list popup data"
+        },
+        {
+          "type": "image_picker",
+          "id": "popup_first_step_img",
+          "label": "Popup first step image"
+        },
+        {
+          "type": "url",
+          "id": "download_img_as_pdf_url",
+          "label": "Downloadable image URL"
+        },
+        {
+          "type": "text",
+          "id": "popup_second_step_dropdown_text",
+          "label": "Popup second step dropdown oprion text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Collection List",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

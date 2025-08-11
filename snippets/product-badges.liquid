@@ -1,0 +1,88 @@
+<div class="product-item__badges {{ text_class }}">
+  {% assign badge1 = settings.product_card_badge_custom_1_text | downcase %}
+  {% assign badge2 = settings.product_card_badge_custom_2_text | downcase %}
+  {% assign badge3 = settings.product_card_badge_custom_3_text | downcase %}
+  <!------------------- Sold out and coming soon conflict resolved ------------------->
+  {% assign product_tags_downcase = product.tags | join: ',' | downcase %}
+  {% assign coming_soon_text = '' %}
+  {% assign coming_soon_handle = '' %}
+  {% assign coming_soon_bg = '' %}
+  {% assign coming_soon_text_color = '' %}
+
+  {% if product.available == false and product_tags_downcase contains 'coming soon' %}
+    {% if badge1 contains 'coming soon' %}
+      {% assign coming_soon_text = settings.product_card_badge_custom_1_text %}
+      {% assign coming_soon_handle = coming_soon_text | handleize %}
+      {% assign coming_soon_bg = settings.product_card_badge_custom_1_color %}
+      {% assign coming_soon_text_color = settings.product_card_badge_custom_1_text_color %}
+    {% elsif badge2 contains 'coming soon' %}
+      {% assign coming_soon_text = settings.product_card_badge_custom_2_text %}
+      {% assign coming_soon_handle = coming_soon_text | handleize %}
+      {% assign coming_soon_bg = settings.product_card_badge_custom_2_color %}
+      {% assign coming_soon_text_color = settings.product_card_badge_custom_2_text_color %}
+    {% elsif badge3 contains 'coming soon' %}
+      {% assign coming_soon_text = settings.product_card_badge_custom_3_text %}
+      {% assign coming_soon_handle = coming_soon_text | handleize %}
+      {% assign coming_soon_bg = settings.product_card_badge_custom_3_color %}
+      {% assign coming_soon_text_color = settings.product_card_badge_custom_3_text_color %}
+    {% endif %}
+  {% endif %}
+
+  {% if coming_soon_text != '' %}
+    <span class="product-item__badge product-item__badge--{{ coming_soon_handle }}"
+      style="background-color: {{ coming_soon_bg }}; color: {{ coming_soon_text_color }}">
+      {{ coming_soon_text }}
+    </span>
+  {% elsif product.available == false %}
+    <span class="product-item__badge product-item__badge--sold"
+      style="background-color: {{ settings.product_card_badge_sold_out_color }}; color: {{ settings.product_card_badge_sold_out_text_color }}">
+      {{ 'products.grid.sold_out_product' | t }}
+    </span>
+  {% endif %}
+
+  {%- if product.compare_at_price > product.price -%}
+    <span class="product-item__badge product-item__badge--sale"
+      style="background-color: {{ settings.product_card_badge_sale_color }}; color: {{ settings.product_card_badge_sale_text_color }}">
+      {%- liquid
+        if settings.product_card_badge_sale_type == 'percentage'
+          echo product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round | prepend: '-' | append: '%'
+        elsif settings.product_card_badge_sale_type == 'amount'
+          assign saved = product.compare_at_price | minus: product.price | money
+          echo 'products.grid.save_amount_html' | t: amount: saved
+        else 
+          echo 'products.grid.on_sale_product' | t
+        endif
+      -%}
+    </span>
+  {%- endif -%}
+  <!------------------- Sold out and coming soon conflict resolved ------------------->
+  {%- assign badge1_tag = settings.product_card_badge_custom_1_tags | strip | downcase -%}
+  {% if badge1_tag != blank and product_tags_downcase contains badge1_tag %}
+    {% unless coming_soon_text != '' and badge1 contains 'coming soon' %}
+      <span class="product-item__badge product-item__badge--{{ settings.product_card_badge_custom_1_text | handleize }}"
+        style="background-color: {{ settings.product_card_badge_custom_1_color }}; color: {{ settings.product_card_badge_custom_1_text_color }}">
+        {{ settings.product_card_badge_custom_1_text }}
+      </span>
+    {% endunless %}
+  {% endif %}
+
+  {%- assign badge2_tag = settings.product_card_badge_custom_2_tags | strip | downcase -%}
+  {% if badge2_tag != blank and product_tags_downcase contains badge2_tag %}
+    {% unless coming_soon_text != '' and badge2 contains 'coming soon' %}
+      <span class="product-item__badge product-item__badge--{{ settings.product_card_badge_custom_2_text | handleize }}"
+        style="background-color: {{ settings.product_card_badge_custom_2_color }}; color: {{ settings.product_card_badge_custom_2_text_color }}">
+        {{ settings.product_card_badge_custom_2_text }}
+      </span>
+    {% endunless %}
+  {% endif %}
+
+  {%- assign badge3_tag = settings.product_card_badge_custom_3_tags | strip | downcase -%}
+  {% if badge3_tag != blank and product_tags_downcase contains badge3_tag %}
+    {% unless coming_soon_text != '' and badge3 contains 'coming soon' %}
+      <span class="product-item__badge product-item__badge--{{ settings.product_card_badge_custom_3_text | handleize }}"
+        style="background-color: {{ settings.product_card_badge_custom_3_color }}; color: {{ settings.product_card_badge_custom_3_text_color }}">
+        {{ settings.product_card_badge_custom_3_text }}
+      </span>
+    {% endunless %}
+  {% endif %}
+</div>

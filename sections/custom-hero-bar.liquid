@@ -1,0 +1,506 @@
+<style>
+  @media screen and (min-width: 1024px) {
+    .custom-hero-bar-{{ section.id }} {
+      padding-top: {{ section.settings.sec_padding_top }}px !important;
+      padding-bottom: {{ section.settings.sec_padding_bottom }}px !important;
+    }
+    .custom-hero-bar-{{ section.id }} .hero-bar-container .hero-bar-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* flex-direction: row; */
+      /* flex-wrap: wrap; */
+    }
+  }
+  .custom-hero-bar-{{ section.id }} {
+    background: rgba(var(--color-background));
+    padding-top: {{ section.settings.sec_padding_top_m }}px;
+    padding-bottom: {{ section.settings.sec_padding_bottom_m }}px;
+  }
+  @media screen and (min-width: 1025px) {
+    .custom-hero-bar-{{ section.id }} .hero-bar-container .hero-bar-flex .rich-text__title {
+        font-family: "Readex Pro", sans-serif; 
+        font-size: 32px;
+        font-style: normal; 
+        font-weight: 600;
+    }
+  }
+  @media screen and (max-width: 635px) {
+    .custom-hero-bar-{{ section.id }} .hero-bar-flex {
+      flex-wrap: wrap;
+      flex-direction:column;
+    }
+    .hero-bar-flex .bar-image {
+      order: 3;
+    }
+    .hero-bar-flex .rich-text__title {
+      order: 1;
+    }
+    .hero-bar-flex .camp-button {
+      order: 2;
+    }
+  }
+  .custom-hero-bar-{{ section.id }} .hero-bar-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* flex-direction: column; */
+    gap: 15px;
+  }
+  @media screen and (max-width: 1024px) {
+    .custom-hero-bar-{{ section.id }} .hero-bar-flex .rich-text__title {
+      font-family: "Readex Pro", sans-serif;
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 500;
+      margin: 0;
+      text-align: center;
+    }
+  }
+  @media screen and (max-width: 820px) {
+    .custom-hero-bar-{{ section.id }} .hero-bar-flex .rich-text__title {
+      font-family: "Readex Pro", sans-serif;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 500;
+      margin: 0;
+      text-align: center;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .custom-hero-bar-{{ section.id }} .hero-bar-flex .rich-text__title {
+      font-family: "Readex Pro", sans-serif;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      margin: 0;
+      text-align: center;
+    }
+  }
+  {% if section.settings.pop_btn != blank %}
+    .custom-hero-bar-{{ section.id }} .camp-button {
+      font-family: "Readex Pro", sans-serif;
+      background-color: {{ section.settings.pop_up_btn_bg_color }};
+      padding: .7rem;
+      line-height: 1;
+      border-radius: 48px;
+      font-size: 14px;
+      font-weight: 500;
+      color: {{ section.settings.pop_up_btn_text_color }};
+      /* border: 1px solid {{ section.settings.pop_up_btn_text_color }}; */
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+      border: 1.5px solid {{ section.settings.pop_up_btn_border_color }};
+      cursor: pointer;
+      transition: all 0.5s ease-in-out;
+      text-wrap: nowrap;
+    }
+    .custom-hero-bar-{{ section.id }} .camp-button-submit {
+      font-family: "Readex Pro", sans-serif;
+      background-color: {{ section.settings.pop_up_btn_bg_color }};
+      padding: 1rem;
+      line-height: 1;
+      border-radius: 48px;
+      font-size: 18px;
+      font-weight: 500;
+      color: {{ section.settings.pop_up_btn_text_color }};
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+      border: 1.5px solid {{ section.settings.pop_up_btn_border_color }};
+      /* border: 2px solid {{ section.settings.pop_up_btn_text_color }}; */
+      cursor: pointer;
+      transition: all 0.5s ease-in-out;
+    }
+  {% endif %}
+  .custom-hero-bar-{{ section.id }} .camp-button:hover,
+  .custom-hero-bar-{{ section.id }} .camp-button-submit:hover {
+    background-color: {{ section.settings.hover_pop_up_btn_bg_color }};
+    border-color: {{ section.settings.hover_pop_up_btn_border_color }};
+    color: {{ section.settings.hover_pop_up_btn_text_color }};
+  }
+  .custom-hero-bar-{{ section.id }} .hero-bar-container .camp-popup {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; 
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .custom-hero-bar-{{ section.id }} .popup-img-content {
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+  
+  .custom-hero-bar-{{ section.id }} .popup-content {
+    background: {{ section.settings.d_pop_up_bg_color }};
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+  
+  .custom-hero-bar-{{ section.id }} .custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .custom-hero-bar-{{ section.id }} .custom-select-wrapper select {
+    background-image: none !important;
+  }
+  
+  .custom-hero-bar-{{ section.id }} .select-arrow {
+    position: absolute;
+    pointer-events: none;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .custom-hero-bar-{{ section.id }} .close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    line-height: .6;
+    color: black;
+  }
+    
+  .custom-hero-bar-{{ section.id }} .hero-bar-container .hidden {
+    display: none;
+  }
+  .custom-hero-bar-{{ section.id }} .popup-content input,
+  .custom-hero-bar-{{ section.id }} .popup-content select {
+    font-family: "Readex Pro", sans-serif;
+  }
+  .custom-hero-bar-{{ section.id }} .popup-content label {
+    font-size:14px;
+    font-weight: 400;
+    color: #424242;
+    font-family: "Readex Pro", sans-serif;
+  }
+  </style>
+
+<div class="custom-hero-bar-{{ section.id }} gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="hero-bar-container container--large">
+    <div class="hero-bar-flex">
+      
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'image' %}
+            {% if block.settings.image %}
+              <div class="bar-image flex" {{ block.shopify_attributes }}>
+                <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.image.alt | escape }}">
+              </div>
+            {% endif %}
+        {% endcase %}
+      {% endfor %}
+      
+      <div class="rich-text__title">
+        {{ section.settings.heading }}
+      </div>
+      
+      {% if section.settings.pop_btn != blank %}
+        <button id="open-image-popup1" class="camp-button">{{ section.settings.pop_btn }}</button>
+      {% endif %}
+
+      {% unless section.settings.hide_first_popup %}
+      <div id="image-popup1" class="camp-popup hidden">
+        <div class="popup-img-content">
+          <div class="flex flex-col items-center">
+            <div class="flex justify-center">
+              {% for block in section.blocks %}
+                {% assign content = block.settings.popup_second_step_dropdown_text | downcase | strip %}
+                {% assign image = block.settings.popup_first_step_img %}
+                {% assign pdf_url = block.settings.download_img_as_pdf_url %}
+                {% if image != blank and content != blank %}
+                  <div class="flex image-select cursor-pointer" data-collection="{{ content }}" data-url="{{ pdf_url }}">
+                    <img src="{{ image | img_url: 'master' }}" alt="{{ content }}" />
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endunless %}
+      {% unless section.settings.hide_second_popup %}    
+        <div id="form-popup1" class="camp-popup hidden">
+          <div class="popup-content">
+            <span id="close-form-popup1" class="close">&times;</span>
+        
+            {%- form 'contact', class: 'isolate' -%}
+              <div class="flex mb-4 gap-4">
+                <div class="flex flex-col gap-2 w-full">
+                  <label>Name</label>
+                  <input class="w-full bg-transparent" type="text" name="contact[name]" placeholder="Your Name" required />
+                </div>
+                <div class="flex flex-col gap-2 w-full">
+                  <label>Email</label>
+                  <input class="w-full bg-transparent" type="email" name="contact[email]" placeholder="Your Email" required />
+                </div>
+              </div>
+        
+              <div class="custom-select-wrapper mb-4">
+                <select name="contact[collection]" class="select bg-transparent" required>
+                  {% for block in section.blocks %}
+                    {% assign dropdown_text = block.settings.popup_second_step_dropdown_text | strip %}
+                    {% if dropdown_text != blank %}
+                      <option value="{{ dropdown_text }}" {% if forloop.first %}selected{% endif %}>
+                        {{ dropdown_text }}
+                      </option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <svg class="select-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L6 6L11 1" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+        
+              <div class="flex items-center justify-center text-center">
+                <button type="submit" class="camp-button-submit w-full mt-2">{{ section.settings.pop_btn }}</button>
+              </div>
+            {%- endform -%}
+          </div>
+        </div>
+      {% endunless %}
+    </div>
+  </div>
+</div>
+      
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const openImageBtn = document.getElementById("open-image-popup1");
+    const imagePopup = document.getElementById("image-popup1");
+    const formPopup = document.getElementById("form-popup1");
+    const closeFormBtn = document.getElementById("close-form-popup1");
+
+    openImageBtn?.addEventListener("click", function () {
+      if (imagePopup) {
+        imagePopup.classList.remove("hidden");
+      } else if (formPopup) {
+        formPopup.classList.remove("hidden");
+      }
+    });
+
+    imagePopup?.addEventListener("click", function (e) {
+      const clickedImage = e.target.closest(".image-select");
+      if (!clickedImage) return;
+
+      const selectedValue = clickedImage.dataset.collection;
+      const pdfUrl = clickedImage.dataset.url;
+
+      if (pdfUrl) window.open(pdfUrl, "_blank");
+
+      const select = document.querySelector('select[name="contact[collection]"]');
+      if (select && selectedValue) {
+        for (let i = 0; i < select.options.length; i++) {
+          if (select.options[i].value.toLowerCase().trim() === selectedValue.toLowerCase().trim()) {
+            select.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (imagePopup) imagePopup.classList.add("hidden");
+      if (formPopup) formPopup.classList.remove("hidden");
+    });
+
+    closeFormBtn?.addEventListener("click", function () {
+      if (formPopup) formPopup.classList.add("hidden");
+    });
+
+    window.addEventListener("click", function (event) {
+      if (event.target === imagePopup) imagePopup?.classList.add("hidden");
+      if (event.target === formPopup) formPopup?.classList.add("hidden");
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Custom Hero Bar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "custom-class",
+        "label": "Enter Custom Class"
+      },
+      {
+        "type": "header",
+        "content": "Section title"
+      },
+      {
+        "type": "richtext",
+        "id": "heading",
+        "label": "Enter Heading"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_first_popup",
+        "label": "Hide First Popup",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_second_popup",
+        "label": "Hide Second Popup",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Pop-up button"
+      },
+      {
+        "type": "text",
+        "id": "pop_btn",
+        "label": "Pop-up button text",
+        "default": "Download your camp list"
+      },
+      {
+        "type": "color",
+        "id": "pop_up_btn_bg_color",
+        "label": "Pop-up button background color",
+        "default": "#CDD780"
+      },
+      {
+        "type": "color",
+        "id": "pop_up_btn_text_color",
+        "label": "Pop-up button text color",
+        "default": "#1D1752"
+      },
+      {
+        "type": "color",
+        "id": "pop_up_btn_border_color",
+        "label": "pop-up button border color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "hover_pop_up_btn_bg_color",
+        "label": "On hover pop-up button background color",
+        "default": "#1D1752"
+      },
+      {
+        "type": "color",
+        "id": "hover_pop_up_btn_text_color",
+        "label": "On hover pop-up button text color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "hover_pop_up_btn_border_color",
+        "label": "On hover pop-up button border color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "d_pop_up_bg_color",
+        "label": "Download your clamp list pop-up background color",
+        "default": "#fff"
+      },
+      {
+        "type": "header",
+        "content": "Section Top Bottom Padding"
+      },
+      {
+        "type": "range",
+        "id": "sec_padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Top (Desktop)",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "sec_padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Bottom (Desktop)",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "sec_padding_top_m",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Top (Mobile)",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "sec_padding_bottom_m",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Bottom (Mobile)",
+        "default": 36
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.colors.name"
+      },
+      {
+        "type": "color_scheme",
+        "id": "section_color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      }
+    ],
+   "blocks": [
+      {
+        "type": "image",
+        "name": "Image",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      },
+      {
+        "type": "popup_content",
+        "name": "Popup Content",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "popup_first_step_img",
+            "label": "Popup first step image"
+          },
+          {
+            "type": "url",
+            "id": "download_img_as_pdf_url",
+            "label": "Downloadable image URL"
+          },
+          {
+            "type": "text",
+            "id": "popup_second_step_dropdown_text",
+            "label": "Popup second step dropdown oprion text"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Hero Bar"
+      }
+    ]
+  }
+{% endschema %}

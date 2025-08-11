@@ -1,0 +1,195 @@
+<div class="js-collection-item text-align--center modifedCard bg-transparent" {{ shopify_attributes }}>
+    {% if collection.url != "" %}
+    <a class="card__whole-link_1" href="{{ collection.url | escape }}" title="{{ collection.title | escape }}"
+    style="{%- if section.settings.style == 'transition' -%}position: absolute; top: {{ top }}%; left: {{ left }}%; transform: translate(-{{ left }}%, -{{ top }}%); width: fit-content; height: fit-content;{% endif %}"
+    >
+    {% endif %}
+    {% if transition != 'transition' and bg_img == 'bg_color' %}
+        <div 
+            class="card__image border-radius-top modified-card__image !bg-white !border-none relative overflow-hidden"
+            style="padding-top:{{ 100 | divided_by: section.settings.image_aspect_ratio }}%;"
+        >
+            {%- liquid
+                unless image == blank
+                    assign collection_image = image
+                else
+                    assign collection_image = collection.featured_image
+                endunless
+            -%}
+
+            {%- unless collection_image == blank %}
+                {%- render 'custom-lazy-image', image: collection_image, type: 'background', alt: collection.title, sizes: sizes, ratio: section.settings.image_aspect_ratio, class: 'lazy-image--animation element--border-radius-top' -%}
+            {%- else -%}
+                {%- assign no = index | modulo: 6 | plus: 1 -%}
+                {{ 'collection-X' | replace: 'X', no | placeholder_svg_tag }}
+            {%- endunless -%}
+            
+            {%- unless collection_image == blank %}
+            <img 
+                src="{{ collection_image | img_url: '1024x1024' }}" 
+                alt="{{ collection.title }}" 
+                class="absolute top-0 left-0 w-full h-full object-cover element--border-radius-top"
+            />
+            {%- endunless %}
+        </div>
+      {% endif %}
+{% if transition == 'transition' and bg_img == 'bg_img' %}
+<style>
+  .hover_collection_title.right {
+    display: flex; 
+    align-items: center !important; 
+    gap: 10px;
+  }
+  .hover_collection_title.left {
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+    flex-direction: row-reverse;
+  }
+  .hover_collection_title.top_left {
+    display: flex; 
+    gap: 10px;
+    flex-direction: column-reverse;
+    align-items: start;
+  }
+  .hover_collection_title.top_center {
+    display: flex; 
+    gap: 10px;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .hover_collection_title.top_right {
+    display: flex; 
+    gap: 10px;
+    flex-direction: column-reverse;
+    align-items: end;
+  }
+  .hover_collection_title.bottom_left {
+    display: flex;  
+    gap: 10px;
+    flex-direction: column;
+    align-items: start;
+  }
+  .hover_collection_title.bottom_center {
+    display: flex; 
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hover_collection_title.bottom_right {
+    display: flex; 
+    gap: 10px;
+    flex-direction: column;
+    align-items: end;
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.25);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  .pulsing-wrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .pulsing-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    background-color: {{ font_bg_color }};
+    border-radius: 50%;
+    animation: pulse 1.5s infinite ease-in-out;
+    z-index: 0;
+  }
+  .hover_collection_title .pulsing-wrapper svg {
+    width: 34px;
+    height: 34px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+  .hover_collection_title .pulsing-wrapper:hover svg {
+    transform: translate(-50%, -50%) scale(0.75);
+  }
+  .hover_collection_title span {
+    font-size: 16px;
+    letter-spacing: normal;
+    line-height: 1;
+    font-weight: 400;
+    display: inline-block;
+    pointer-events: none;
+    padding: 12px 8px;
+    border-radius: 5px;
+    font-family: 'Readex Pro';
+  }
+  @media screen and (min-width: 1024px) {
+    .hover_collection_title span {
+      font-size: 20px;
+    }
+  }
+  @media screen and (max-width: 750px) {
+    .hover_collection_title span {
+      font-size: 12px;
+      padding: 4px;
+    }
+    .pulsing-wrapper {
+      position: relative;
+      width: 25px;
+      height: 25px;
+    }
+    
+    .pulsing-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 25px;
+      height: 25px;
+      background-color: {{ font_bg_color }};
+      border-radius: 50%;
+      animation: pulse 1.5s infinite ease-in-out;
+      z-index: 0;
+    }
+    .hover_collection_title .pulsing-wrapper svg {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+      transition: transform 0.3s ease;
+    }
+  }
+</style>
+<div class="hover_collection_title {% if text_adjustment == 'left' %}left{% endif %}{% if text_adjustment == 'right' %}right{% endif %}{% if text_adjustment == 'top_left' %}top_left{% endif %}{% if text_adjustment == 'top_center' %}top_center{% endif %}{% if text_adjustment == 'top_right' %}top_right{% endif %}{% if text_adjustment == 'bottom_left' %}bottom_left{% endif %}{% if text_adjustment == 'bottom_center' %}bottom_center{% endif %}{% if text_adjustment == 'bottom_right' %}bottom_right{% endif %}" style="--font_bg_color: {{ font_bg_color }}; width: max-content;">
+<div class="pulsing-wrapper">
+  <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="20" fill="{{ svg_bg_color }}" />
+    <line x1="20" y1="12" x2="20" y2="28" stroke="{{ svg_color }}" stroke-width="3" stroke-linecap="round"/>
+    <line x1="12" y1="20" x2="28" y2="20" stroke="{{ svg_color }}" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+</div>
+<span style="color: {{ font_color }}; background-color: {{ font_bg_color }}80;">
+  {{ collection_name | escape }}
+</span>
+</div>
+{% endif %}
+    {% if collection.url != "" %}
+    </a>
+    {% endif %}
+</div>

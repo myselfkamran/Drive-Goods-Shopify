@@ -1,0 +1,338 @@
+<style>
+  .nb-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    display: none;
+    background: transparent
+  }
+  .nb-search-results {
+    position: absolute;
+    max-height: 280px;
+     top: 106px;
+    left: 144px;
+    padding: 0;
+    margin: 0 auto;
+    z-index: 9999;
+    max-width: 675px;
+    width: 78%;
+    margin-top: 6px;
+    display: none;
+    right: 0
+  }
+  .nb-results-content {
+    position: relative;
+    max-width: 1062px;
+    min-height: 200px;
+    background: #fff;
+    overflow: hidden;
+    border-radius: 0;
+    padding: 24px;
+    padding-top: 18px;
+    border: 1px solid #CCC;
+    border-top: 2px solid #000000;
+    max-height: 275px;
+    overflow-y: auto
+  }
+  .nb-results-column {
+    display: inline-block;
+    vertical-align: top
+  }
+  .nb-results-column:first-child {
+    width: 37%
+  }
+  .nb-results-column:nth-child(2) {
+    width: 61%
+  }
+  .nb-results-column {
+    float: none
+  }
+  .nb-search-results ul li {
+    list-style-type: none;
+    padding: 0
+  }
+  .nb-results-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 9px;
+    overflow: hidden;
+    margin-bottom: 36px
+  }  
+  .nb-search-results .nb-search-label {
+    line-height: 1;
+    text-transform: uppercase;
+    border-bottom: 1px solid #333;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+    letter-spacing: 0;
+    margin: 0 8px 0;
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.8em!important;
+    color: #000
+  }
+  .nb-search-results .nb-search-suggestion {
+    cursor: pointer;
+    margin: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: #000;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    white-space: pre;
+    text-transform: capitalize
+  }
+  .nb-search-suggestion a {
+    line-height: initial;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center
+  }
+  .nb-search-results .nb-search-suggestion:hover {
+    border-radius: 0;
+    background-color: #f6f6f6
+  }
+  .nb-search-results .nb-search-suggestion::before {
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.6 3.75C6.76295 3.75 3.75 6.77915 3.75 10.5409C3.75 14.3001 6.76045 17.3318 10.5 17.3318C11.9854 17.3318 13.3777 16.8561 14.5821 15.9089L18.6227 19.975C18.7663 20.1195 19.0288 20.25 19.3 20.25C19.5712 20.25 19.8337 20.1195 19.9773 19.975C20.1209 19.8305 20.25 19.567 20.25 19.2956C20.25 19.185 20.2027 19.0662 20.1614 18.9831C20.1162 18.8922 20.052 18.792 19.9773 18.7169L15.9348 14.6489C16.8771 13.4366 17.35 12.0355 17.35 10.5409C17.35 6.78165 14.3395 3.75 10.6 3.75ZM5.65 10.5409C5.65 7.85986 7.83955 5.65881 10.5 5.65881C13.1605 5.65881 15.35 7.85986 15.35 10.5409C15.35 13.3225 13.2605 15.423 10.5 15.423C7.83955 15.423 5.65 13.2219 5.65 10.5409Z' fill='%23333333'/%3E%3C/svg%3E%0A");
+    content: "";
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    background-size: 25px;
+    margin-right: 5px;
+    flex-shrink: 0
+  }
+  .nb-results-multicolumn-list {
+    display: flex;
+    flex-flow: row wrap;
+    list-style-type: none;
+    max-width: 707px
+  }
+  .nb-results-multicolumn-list .nb-search-label {
+    flex: 1 100%;
+    margin-left: 9px;
+    margin-right: 0
+  }
+  .nb-search-results .nb-no-products-found {
+    padding: 9px;
+    flex: 0 0 100%
+  }
+  .nb-search-results .nb-no-products-found-text {
+    padding: 11px;
+    font-size: 14px;
+    color: #333;
+    padding-top: 0;
+    padding-left: 0
+  }
+@media (max-width: 1023px) {
+  .nb-search-results {
+     top: 169.781px;
+     max-height: 100%;
+     max-width: 961px
+  }
+  .nb-results-content {
+    max-height: 100%
+  }
+}
+@media (max-width: 767px) {
+  .nb-search-results {
+        top: 151px;
+        max-height: 100%;
+        max-width: 690.3px
+  }
+  .nb-results-content {
+    max-height: 100%
+  }
+}
+@media (max-width: 677px) {
+    .nb-results-column {
+        display: block;
+        width: 100% !important
+    }
+}  
+@media (min-width: 768px) {
+  .nb-results-columns {
+    display: flex;
+    justify-content: space-between
+  } 
+}
+</style>  
+
+<div class="nb-search-overlay"> </div>
+<div class="nb-search-results">
+    <div class="nb-results-content">
+      <div class="nb-results-columns">
+        <div class="nb-results-column">
+          <ul class="nb-results-list">
+            <li class="nb-search-label">
+              Popular suggestions
+            </li> 
+          {% for block in section.blocks %}  
+            {% if block.type == "search-item" %}
+              {% assign handle = block.settings.search_item_text | split: '|' | first | strip | handleize %}
+            <li class="nb-search-suggestion">
+              <a href="/search?q={{ handle }}&amp;type=product">
+                <b> {{ block.settings.search_item_text }} </b>
+              </a>  
+            </li>  
+            {% endif %}
+           {% endfor %} 
+          </ul>
+        </div>
+        <div class="nb-results-column">
+          <ul class="nb-results-multicolumn-list">
+            <li class="nb-search-label">
+              Products
+            </li>
+            <li class="nb-no-products-found">
+              <div class="nb-no-products-found-text"> Start typing for search results </div>
+            </li> 
+          </ul>
+        </div>
+      </div>
+    </div>  
+</div>
+<script>
+$(document).ready(function(){
+
+// Mouse Events  
+  
+  // document.querySelector("#nb-search-form .aa-Input").addEventListener("focusin", (event) => {
+  //   if (event.target.value.length < 1) {
+  //     console.log("Show Recommendations");
+  //     $(".nb-search-overlay").show();
+  //     $(".nb-search-results").show();
+  //   }
+  // });
+ $('#nb-search-form .aa-Input').on('focusin', function() {
+   console.log("Show Recommendations");
+      $(".nb-search-overlay").show();
+      $(".nb-search-results").show();
+ });
+  $('.nb-search-overlay').on("click", function(){
+      console.log("Hide Recommendations");
+      $(".nb-search-overlay").hide();
+      $(".nb-search-results").hide();
+      // $(".algolia-autocomplete").hide();
+  });
+  
+  $('#nb-search-form-mob .aa-Input').on("focusin", function(){
+    if (event.target.value.length < 1) {
+      $(".nb-search-overlay").show();
+      $(".nb-search-results").show();
+    }
+  });            
+
+  $('#nb-search-form-mob .aa-Input').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    if (event.target.value.length < 1) {
+       $(".nb-search-overlay").show();
+       $(".nb-search-results").show();
+    }
+});
+
+  // document.querySelector("#nb-search-form-mob .aa-Input").addEventListener("focusout", function(){
+  //     $(".nb-search-results").hide();
+  // });    
+ 
+// Keyboard Events
+  
+  var elem = document.querySelector('#nb-search-form .aa-Input');
+  var mobElem = document.querySelector('#nb-search-form-mob .aa-Input');
+  if(elem){
+    elem.onkeypress = function() {
+     console.log("Search Input Found");
+     $(".nb-search-overlay").show();
+     $(".nb-search-results").hide();
+  }
+    elem.onkeyup = function() {
+    let searchInput = $('#nb-search-form .aa-Input');
+    if (event.target.value.length < 1) {
+      console.log("No Search Input Found");
+      $(".nb-search-overlay").show();
+      $(".nb-search-results").show();
+    }
+  }
+  }
+  if(mobElem){
+    mobElem.onkeypress = function() {
+     console.log("Search Input Found");
+     $(".nb-search-overlay").show();
+     $(".nb-search-results").hide();
+  }
+
+  
+
+  mobElem.onkeyup = function() {
+    if (event.target.value.length < 1) {
+      console.log("No Search Input Found");
+     $(".nb-search-overlay").show();
+     $(".nb-search-results").show();
+    }
+  }
+  }
+  
+
+  
+
+
+  // Function to toggle the sibling when the checkbox is clicked
+   $('.ais-facet-dropdown-container',).hide();
+    $('.ais-dropdown-checkbox').click(function(e) {
+      e.stopPropagation();
+      const isChecked = $(this).prop('checked');
+      $(this).closest('.ais-facet-dropdown-wrapper').find('.ais-facet-dropdown-container').toggle(isChecked);
+      
+  
+      // Close other dropdowns
+      $('.ais-facet-dropdown-container').not($(this).closest('.ais-facet-dropdown-wrapper').find('.ais-facet-dropdown-container')).hide();
+  
+        $('.ais-dropdown-checkbox').not($(this).closest('.ais-facet-dropdown-wrapper').find('.ais-facet-dropdown-container')).prop('checked',false);  
+        
+      
+    });
+       // $('.ais-RefinementList-item','.ais-RefinementList-list','.ais-RefinementList-label').click(function(e) {
+       //      console.log("click inside",e.target);
+       //       $('.ais-facet-dropdown-container').hide();
+           
+       // });
+  $('.ais-RefinementList-item','.ais-facet--item').click(function(e) {
+    console.log(e.target.tagName);
+    $(this).closest('.ais-facet-dropdown-container').hide();
+});
+ 
+   // Function to close all siblings when clicking outside
+    $(document).click(function(e) {
+        
+        if(event.target.tagName == "INPUT"){
+           console.log(e.target,event.target.tagName,event.target.tagName == "INPUT->");
+            e.stopPropagation();
+            return;
+        }
+        console.log(e.target,event.target.tagName,event.target.tagName == "INPUT");
+        $('.ais-facet-dropdown-container').hide();
+         
+        
+     
+    });
+
+    // Prevent clicking inside the sibling from closing it
+    // $('.ais-facet-dropdown-container').click(function(e) {
+    //   e.stopPropagation();
+    // });
+  
+    
+
+}); 
+</script>  

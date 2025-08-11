@@ -1,0 +1,313 @@
+{{ 'collection-list-slider.css' | asset_url | stylesheet_tag }}
+<style>
+  .main-collection-name h6.js-main-collection-button.active {
+    color: {{ section.settings.on_hover_text_color }};
+    font-style: normal;
+    background: {{ section.settings.on_active_bg_color }};
+    border: 1px solid {{ section.settings.on_active_bg_color }};
+  }
+  @media only screen and (min-width: 768px) {
+    .main-collection-name h6.js-main-collection-button:hover {
+      background: {{ section.settings.on_hover_bg_color }};
+      border: 1px solid {{ section.settings.border_color }};
+      box-shadow: 0 1px 2px #1018280d;
+      color: {{ section.settings.on_hover_text_color }};
+    }
+  }
+  .main-collection-name h6.js-main-collection-button {
+    border: 1px solid {{ section.settings.border_color }};
+  }
+  .js-sub-collection-content .sub-collection-image {
+    border-color: {{ section.settings.collection_img_border_color }};
+  }
+  .collection-list-slider .js-sub-collection-content .sub-collection-image-wrap img {
+    transform: scale(1) translateZ(0);
+    transition: transform .45s ease-in-out, opacity .3s linear;
+    will-change: transform;
+  }
+  .collection-list-slider .js-sub-collection-content:hover .sub-collection-image-wrap img {
+    transform: scale(1.1) translateZ(0);
+    transition: transform .6s ease-out, opacity .3s !important;
+  }
+  .collection-list-slider .js-sub-collection-content .sub-collection-name-under span {
+    background-position: left calc(1em + 2px);
+    background-image: linear-gradient(to right, var(--color-text-main), var(--color-text-main));
+    background-size: 0% 1px;
+    transition: all .1s linear;
+    background-repeat: no-repeat;
+  }
+  .collection-list-slider .js-sub-collection-content:hover .sub-collection-name-under span {
+    background-size: 100% 1px;
+  }
+</style>
+<div class="collection-list-slider gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="container--large  container--vertical-space">
+    {% if section.settings.heading != blank %}
+      <h2 class="collection-list-slider-heading section-heading__title h4">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <ul class="collection-list-main">
+      {% for block in section.blocks %}
+        {% if block.type == 'main-collection' %}
+          {% if block.settings.title != blank %}
+            <li class="main-collection-name">
+              <h6
+                class="js-main-collection-button {% if forloop.first %}active{% endif %}"
+                data-collection-parent="{{ block.settings.title | handleize }}"
+              >
+                {{ block.settings.title }}
+              </h6>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {% for block in section.blocks %}
+      {% if block.type == 'sub-collection' %}
+        {% if block.settings.enable_parent %}
+         <script>
+          $(document).ready(function(){
+            $('.js-sub-collection-slider-{{ forloop.index }}').slick({
+              infinite: false,
+              slidesToShow: 5,
+              slidesToScroll: 4,
+              arrows: true,
+              prevArrow: '<button type="button" class="slick-prev"></button>',
+              nextArrow: '<button type="button" class="slick-next"></button>',
+              dots: true,
+              responsive: [
+                {
+                  breakpoint: 1024,
+                  settings: {
+                    infinite: true,
+                    slidesToShow: 5
+                  }
+                },
+                {
+                  breakpoint: 768,
+                  settings: {
+                    infinite: true,
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                  }
+                },
+                {
+                  breakpoint: 475,
+                  settings: {
+                    infinite: true,
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                  }
+                }
+              ]
+            });
+          });
+        </script>
+          <div
+            class="js-sub-collection-slider-{{ forloop.index }} sub-collection-slider"
+            data-collection-child="{{ block.settings.main_collection | handleize }}"
+          > 
+          
+        {% endif %}
+        {% if block.settings.collection != blank %}
+          <div
+            data-collection-child="{{ block.settings.main_collection | handleize }}"
+            class="js-sub-collection-content"
+          >
+            <div class="sub-collection-image  card js-collection-item text-align--center modifedCard css-slide css-slide-active css-slide--snap">
+              <a href="{{ block.settings.collection.url }}">
+                {% if block.settings.collection_image != blank %}
+                  <div class="sub-collection-image-wrap" style=" background-color: {{ block.settings.collection_img_bg_color }}">
+                    <img
+                      src="{{ block.settings.collection_image | img_url:'400x' }}"
+                      alt="{{ block.settings.collection_image.alt }}"
+                    >
+                  </div>
+                {% else %}
+                  <div class="sub-collection-image-wrap">
+                    <img
+                      src="{{ block.settings.collection.image | img_url:'400x' }}"
+                      alt="{{ block.settings.collection.image.alt }}"
+                    >
+                  </div>
+                {% endif %}
+                {% comment %}remove hover
+                <div class="sub-collection-name">
+                  <span>
+                    {% if block.settings.collection_title != blank %}
+                      {{ block.settings.collection_title }}
+                    {% else %}
+                      {{ block.settings.collection.title }}
+                    {% endif %}
+                  </span>
+                </div>{% endcomment %}
+             
+            </div>
+           <div class="sub-collection-name-under">
+            <span style="color: rgba(var(--color-foreground) 0.75);">
+            {% if block.settings.collection_title != blank %}
+            {{ block.settings.collection_title }}
+            {% else %}
+           {{ block.settings.collection.title }}
+            {% endif %}
+            </span>
+            </div>
+           </a>
+          </div>
+        {% endif %}
+            
+        {% if block.settings.end_parent_slider %}
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.main-collection-name').each(function() {
+      var collectionParent = $(this).find('.js-main-collection-button.active').attr('data-collection-parent');
+      $('.sub-collection-slider[data-collection-child="'+collectionParent+'"]').addClass("slider-active");
+  
+      $(this).on('click', function(){
+        $('.main-collection-name .js-main-collection-button').removeClass('active');
+        $(this).find('.js-main-collection-button').addClass('active');
+  
+        var collectionParentHit = $(this).find('.js-main-collection-button.active').attr('data-collection-parent');
+  
+        $('.sub-collection-slider').removeClass("slider-active").hide();
+        $('.sub-collection-slider[data-collection-child="'+collectionParentHit+'"]').addClass("slider-active").show();
+  
+        $('.sub-collection-slider').slick('setPosition');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collection list slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured collections"
+    },
+    {
+      "type": "header",
+      "content": "t:settings_schema.colors.name"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "collection_img_border_color",
+      "label": "Collection Image Border Color",
+      "default": "#1D1752"
+    },
+    {
+      "type": "header",
+      "content": "On hover colors"
+    },
+    {
+      "type": "color",
+      "id": "on_active_bg_color",
+      "label": "On active background color",
+      "default": "#1D1752"
+    },
+    {
+      "type": "color",
+      "id": "on_hover_bg_color",
+      "label": "On hover background color",
+      "default": "#2f80ed"
+    },
+    {
+      "type": "color",
+      "id": "on_hover_text_color",
+      "label": "On hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Collection button border color",
+      "default": "#D6D6D6"
+    }
+  ],
+   "blocks": [
+    {
+      "type": "main-collection",
+      "name": "Parent collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Collection Title"
+        }
+      ]
+    },
+    {
+      "type": "sub-collection",
+      "name": "Child collection",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_parent",
+          "label": "Start Slider",
+          "info": "Start your slider from here"
+        },
+        {
+          "type": "checkbox",
+          "id": "end_parent_slider",
+          "label": "End Slider",
+          "info": "End your slider here"
+        },
+        {
+          "type": "text",
+          "id": "main_collection",
+          "label": "Parent Collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "collection_image",
+          "label": "Image"
+        },
+        {
+          "type": "color",
+          "id": "collection_img_bg_color",
+          "label": "Image background color"
+        },
+        {
+          "type": "text",
+          "id": "collection_title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+   "presets": [
+    {
+      "name": "Collection list slider",
+      "blocks": [
+        {
+          "type": "main-collection"
+        },
+        {
+          "type": "sub-collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,129 @@
+{%- liquid
+	if type == "classic" 
+		assign links_class = "text-animation--underline-in-header"
+	endif 
+-%}
+
+<div class="site-nav style--{{ type }}">
+	<div class="site-nav-container">
+		<nav>
+			{%- assign mega_menus = false -%}
+			<ul class="link-list">
+				{%- for link in linklists[linklist].links -%}
+					{%- liquid
+						assign link_is_mega_menu = false
+					-%}
+					<li class="main-main-item {% if link.links != blank %}has-submenu{% elsif link_is_mega_menu %}has-submenu submenu-is-mega-menu{% endif %} " data-mainmenu="{{ link.title | handleize }}"
+						{% if link.links != blank %}
+							aria-controls="SiteNavLabel-{{ link.handle }}-{{ type }}" aria-expanded="false" 
+						{% endif %} 
+						id="menu-item-{{ link.handle }}"
+					>
+						<a class="main-item menu-link {% if link.active or link.child_active %} active {% endif %} {% unless link.links != blank or link_is_mega_menu %} no-focus-link {% endunless %}" href="{{ link.url }}">
+							<span><span class="{{ links_class }} main-item-text">{{ link.title | escape }}</span></span>
+						</a>
+						{% if link.links != blank or link_is_mega_menu %}
+							<ul data-mainmenu="{{ link.title | handleize }}" class="submenu {% if link_is_mega_menu %} mega-menu {% else %} normal-menu {% endif %}" id="SiteNavLabel-{{ link.handle }}-{{ type }}">
+                              <div class="submenu-container">
+								<div class="submenu-holder {% if link_is_mega_menu and type == 'classic' %} container--large {% endif %}">
+                                    {%- for childlink in link.links -%}
+                                      <li data-babymenu="{{ childlink.title | handleize }}" 
+                                          class="babymenu-item {% if forloop.last %}last-submenu{% endif %} {% if link_is_mega_menu %} mega-link {% if childlink.links != blank %} has-babymenu {% endif %}{% elsif childlink.links != blank %}has-babymenu {% endif %}"
+                                          {% if childlink.links != blank %}
+                                              aria-controls="SiteNavLabel-{{ childlink.handle }}-{{ type }}" aria-expanded="false"
+                                          {% endif %}
+                                      >
+                                          <a class="menu-link {% if link_is_mega_menu == false and childlink.active or childlink.child_active %} active {% endif %} {% unless childlink.links != blank %} no-focus-link {% endunless %}" href="{{ childlink.url }}">
+                                              <span class="{{ links_class }}">{{ childlink.title | escape }}</span>
+                                          </a>
+                                      </li>
+                                    {%- endfor -%}
+								</div>
+                                <div class="submenu-holder-right">
+                                  {%- for childlink in link.links -%}
+                                  {%- if childlink.links != blank -%}
+                                    <div class="babymenu" data-babymenu="{{ childlink.title | handleize }}">
+                                      <ul class="babymenu-holder" id="SiteNavLabel-{{ childlink.handle }}-{{ type }}">
+                                        {%- if type == 'sidebar' -%}
+                                            <li class="submenu-back">
+                                                <a><span class="icon">{%- render 'theme-symbols', icon: 'chevron' -%}</span>{{ 'general.accessibility_labels.back' | t }}</a>
+                                            </li>
+                                        {%- endif -%}
+                                        {% for babylink in childlink.links %}
+                                          {% if babylink.title contains '**' %}
+                                            {% assign babytitle = babylink.title | split: '**' %}
+                                            {% unless forloop.first %}</div>{% endunless %}
+                                            <div class="child-item-wrap child-item-title">
+                                              <li class="child-item">
+                                                <a class="menu-link {% if babylink.active %} active {% endif %} no-focus-link" href="{{ babylink.url }}">
+                                                  <span class="child-item-with-arrow">{{ babytitle.first | escape }}
+                                                    <span class="child-item-arrow">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11" fill="none">
+                                                      <path d="M9.68767 1.53783L12.9606 4.81461H1.47839V4.81433L1.46779 4.81489C1.28749 4.82446 1.11773 4.90282 0.993495 5.03383C0.869255 5.16483 0.8 5.3385 0.8 5.51905C0.8 5.6996 0.869255 5.87327 0.993495 6.00428C1.11773 6.13529 1.28749 6.21365 1.46779 6.22321L1.46777 6.22349H1.47839H12.9597L9.67629 9.50172L9.67625 9.50168L9.67296 9.50513C9.54618 9.6379 9.47544 9.81442 9.47544 9.998C9.47544 10.1816 9.54618 10.3581 9.67296 10.4909L9.67292 10.4909L9.67596 10.4939C9.74107 10.5593 9.81844 10.6111 9.90362 10.6464C9.9888 10.6818 10.0801 10.7 10.1723 10.7C10.2646 10.7 10.3559 10.6818 10.4411 10.6464C10.5263 10.6111 10.6036 10.5593 10.6687 10.4939L15.1512 6.01149C15.2176 5.94719 15.2705 5.87022 15.3067 5.78514C15.3431 5.69942 15.3619 5.60723 15.3619 5.51409C15.3619 5.42094 15.3431 5.32875 15.3067 5.24304C15.2705 5.15795 15.2176 5.08099 15.1512 5.01668L10.68 0.545548C10.6186 0.47387 10.5432 0.415275 10.4586 0.373286C10.371 0.329845 10.2753 0.30513 10.1777 0.300717C10.08 0.296304 9.98248 0.31229 9.89134 0.347654L9.96368 0.534111L9.89134 0.347655C9.80019 0.383019 9.71742 0.436987 9.64828 0.506117L9.64828 0.506119C9.57915 0.575249 9.52519 0.658025 9.48982 0.74917C9.45445 0.840317 9.43847 0.937832 9.44288 1.03549C9.4473 1.13316 9.47201 1.22884 9.51545 1.31642C9.55743 1.40106 9.61601 1.47635 9.68767 1.53783Z" fill="black" stroke="black" stroke-width="0.4"/>
+                                                      </svg>
+                                                    </span>
+                                                  </span>
+                                                </a>
+                                              </li>
+                                          {% elsif babylink.title contains 'cdn.shopify' %}
+                                            {% unless forloop.first %}</div>{% endunless %}
+                                            <div class="child-item-wrap child-item-title child-item-with-image">
+                                              <li class="child-item">
+                                                <a class="menu-link {% if babylink.active %} active {% endif %}" href="{{ babylink.url }}">
+                                                  <img src="{{ babylink.title }}" alt="" />
+                                                </a>
+                                              </li>
+                                          {% else %}
+                                            <li class="child-item">
+                                              <a class="menu-link {% if babylink.active %} active {% endif %} no-focus-link" href="{{ babylink.url }}">
+                                                <span class="text-animation--underline-in-header">{{ babylink.title | escape }}</span>
+                                              </a>
+                                            </li>
+                                          {% endif %} 
+                                        {% endfor %}
+                                      </ul>
+                                    </div>
+                                  {%- endif -%}
+                                  {%- endfor -%}
+                                </div>
+                              </div>
+							</ul>
+						{% endif %}
+					</li>
+				{%- endfor -%}
+				{%- if type == 'sidebar' and shop.customer_accounts_enabled -%}
+					<li id="menu-item-account">
+						<a class="menu-link" href="{%- liquid
+							if customer
+								echo routes.account_url
+							else
+							 echo routes.account_login_url
+							endif
+						-%}">
+							<span style="display: inline-flex; align-items: center;">
+								{%- render 'theme-symbols', icon: 'account' -%}
+								{{ 'general.breadcrumb.account' | t }}
+							</span>
+						</a>
+					</li>
+				{%- endif -%}
+			</ul>
+			{%- if mega_menus and type == 'classic' -%}
+				<script src="{{ 'vendor-macy.js' | asset_url }}" defer onload="runMacy()"></script>
+				<script>
+					function runMacy(){
+						document.querySelectorAll('.site-nav.style--classic .submenu-masonry').forEach(elm=>{
+							const submenuMacy = new Macy({
+								container: elm,
+								columns: elm.classList.contains('with-promotion') ? 3 : 4
+							});
+							setTimeout(()=>{
+								submenuMacy.reInit();
+							}, 100);
+						})
+					}
+				</script>
+			{%- endif -%}
+		</nav>
+	</div>
+</div>

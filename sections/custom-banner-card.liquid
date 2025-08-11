@@ -1,0 +1,158 @@
+<style>
+  .custom-banner-card {
+    padding-top: {{ section.settings.sec_padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.sec_padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .custom-banner-card {
+      padding-top: {{ section.settings.sec_padding_top }}px;
+      padding-bottom: {{ section.settings.sec_padding_bottom }}px;
+    }
+  }
+  /* .custom-banner-card .banner-card-container .banner-card-flex {
+    margin-bottom: 0;
+  } */
+  .custom-banner-card .banner-card-flex .swiper-button-prev:after, 
+  .custom-banner-card .banner-card-flex .swiper-button-next:after {
+    color: rgba(var(--color-foreground));
+  }
+  .custom-banner-card .banner-card-container .banner-card-flex .banner-card {
+    background: rgb(var(--color-background)) !important;
+    /* transition: background 0.5s ease-in-out, border-color 0.5s ease-in-out !important; */
+    transition: all .1s linear !important;
+  }
+  
+  .custom-banner-card .banner-card-container .banner-card:hover {
+    background: {{ section.settings.on_hover_bg_color }} !important;
+    border-color: {{ section.settings.on_hover_bg_color }} !important;
+  }
+  .custom-banner-card .banner-card-container .banner-card-flex .banner-card a p,
+  .custom-banner-card .banner-card-container .banner-card-flex .banner-card span {
+    color: rgba(var(--color-foreground)) !important;
+    /* transition: color 0.25s ease-in-out !important; */
+  }
+  .custom-banner-card .banner-card-container .banner-card-flex .banner-card:hover a p,
+  .custom-banner-card .banner-card-container .banner-card-flex .banner-card:hover span {
+    color: {{ section.settings.on_hover_text_color }} !important;
+  }
+  /* .custom-banner-card .banner-card-container .banner-card:hover {
+    background: {{ section.settings.on_hover_bg_color }} !important;
+    border-color: {{ section.settings.on_hover_bg_color }} !important;
+  } */
+
+</style>
+<div class="custom-banner-card gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="banner-card-container">
+    <div class="banner-card-flex">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        {% if block.type == 'block-1' %}
+        <a href="{{ block.settings.link }}" class="banner-card swiper-slide">
+            <span>{{ block.settings.heading }}</span>
+          {% if block.settings.desc %}
+            <span>{{ block.settings.desc }}</span>
+          {% endif %}
+        </a>
+          {% endif %}
+      {% endfor %}
+        </div>
+         
+      </div>
+      <!-- Navigation buttons -->
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Custom Banner Cards",
+    "settings": [
+      {
+        "type": "text",
+        "id": "custom-class",
+        "label": "Enter Custom Class"
+      },
+      {
+        "type": "header",
+        "content": "Section Top Bottom Padding"
+      },
+      {
+        "type": "range",
+        "id": "sec_padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "sec_padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 36
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.colors.name"
+      },
+      {
+        "type": "color_scheme",
+        "id": "section_color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "On hover colors"
+      },
+      {
+        "type": "color",
+        "id": "on_hover_bg_color",
+        "label": "On hover background color",
+        "default": "#2f80ed"
+      },
+      {
+        "type": "color",
+        "id": "on_hover_text_color",
+        "label": "On hover text color",
+        "default": "#ffffff"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "block-1",
+        "name": "Banner Card",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "heading",
+            "label": "Enter Heading"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Enter Link"
+          },
+          {
+            "type": "text",
+            "id": "desc",
+            "label": "Enter Description"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Banner Cards"
+      }
+    ]
+  }
+{% endschema %}
