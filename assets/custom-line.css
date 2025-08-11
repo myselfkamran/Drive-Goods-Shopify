@@ -1,0 +1,375 @@
+/** HEADER **/
+.site-nav a span{
+  color: #525252;
+  font-family: "Readex Pro";
+  font-weight: 500;
+  font-size: 16px!important;
+}
+.header-info-block__text span{
+  font-family: "Readex Pro";
+  font-weight: 500;
+}
+/** FOOTER **/
+.main-footer{
+  margin-top: 0!important;
+}
+.main-footer a{
+  border-bottom: 0;
+}
+.main-footer a, .main-footer p{
+  font-family: "Readex Pro";
+  font-weight: 500;
+}
+.main-footer h4, .main-footer strong{
+  font-family: "Readex Pro";
+}
+
+/** HOME PAGE **/
+.banner-card-container {
+    width: 100%;
+    max-width: 1354px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+.banner-card-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    /* margin-bottom: 22px; */
+}
+.banner-card {
+    border: 0.56px solid #D6D6D6;
+    border-radius: 5.61px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    height: 90px !important;
+    justify-content: center;
+    transform: none !important;
+  transition: none !important;
+}
+.swiper-wrapper {
+    transition-property: none !important;
+    transition-timing-function: unset;
+    box-sizing: content-box;
+}
+.banner-card p {
+    color: #141414;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: "Readex Pro";
+    margin: 0;
+    text-align: center;
+}
+
+.banner-card span {
+    margin: 0;
+    font-size: 12px;
+    color: #141414;
+    font-family: "Readex Pro";
+    font-weight: 500;
+}
+.banner-card:hover {
+    background-color: #2f80ed !important;
+    border: .56px solid #2f80ed;
+}
+.banner-card:hover p, .banner-card:hover span {
+    color: #fff;
+}
+@media (min-width: 1266px){
+ .banner-card {
+    width: 248px !important;
+} 
+}
+@media (max-width: 1023px){
+.banner-card-flex {
+    margin: 22px 0;
+}
+  .banner-card {
+    width: calc(25% - 14px);
+    padding: 0 15px;
+}
+}
+@media (max-width: 767px){
+  .banner-card {
+    width: calc(33% - 11px);
+    padding: 0 24px;
+}
+/* .banner-card-container {
+    padding-right: 0;
+} */
+}
+@media (max-width: 600px){
+      .banner-card {
+        width: calc(50% - 9px);
+        padding: 0 24px;
+    }
+}
+@media (max-width: 412px){
+      .banner-card {
+        width: 100%;
+    }
+}
+
+
+/** COLLECTION PAGE **/
+.collection-banner-bg{
+  padding: 75px;
+  border-radius: 12px;
+  background-position: center left;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.collection-banner-bg .section-heading{
+  margin-bottom: 0;
+}
+/** PRODUCT PAGE **/
+.rbr-desktop{
+  max-width: 100%;
+}
+.rbr-desktop>div, .modernFBTBundle_container_7b25823a{
+  padding: 0!important;
+}
+.horizontalFBT_container_771184d9{
+  flex-direction: column; 
+  row-gap: 24px;
+}
+.horizontalBundleItems_container_c7623a4f{
+  flex-wrap: wrap;
+  row-gap: 24px!important;
+  column-gap: 2%!important;
+}
+.horizontalBundleItems_item_wrapper_c7623a4f{
+  max-width: none!important;
+  width: 45%;
+  padding: 30px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+}
+.horizontalBundleItems_plus_c7623a4f{
+  display: none!important;
+}
+.horizontalBundleItems_thumbnail_wrapper_c7623a4f{
+  margin-bottom: 20px;
+}
+.thumbnail_image_2aa1bbba{
+  height: 100px!important;
+  width: 100px!important;
+  background-color: transparent;
+}
+.variantSelector_select_container_1468d8d6 select{
+  border-color: #d6d6d6!important;
+  border-radius: 48px!important;
+  padding: 8px 12px!important;
+  width: 36%!important;
+}
+.horizontalFBT_container_771184d9 .horizontalFBT_actions_container_771184d9{
+  height: auto;
+  width: auto;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+.rbr-addBundleBtn-container{
+  margin-top: 0!important;
+  border-radius: 48px!important;
+  padding: 12px 48px!important;
+  font-family: "Readex Pro"!important;
+}
+
+/*new bundle app 3.27.25 cas*/
+.horizontalBundleItems_priceTagWrapper_c7623a4f{
+  justify-content:flex-start!important;
+}
+.horizontalFBT_title_771184d9{
+  font-size:26px!important;
+  font-family:"Readex Pro"!important;
+}
+.totalBox_total_text_94374a3b{
+  color:gray!important;
+  font-family:"Readex Pro"!important;
+}
+.totalBox_discounted_price_94374a3b, .horizontalBundleItems_price_c7623a4f{
+  font-family:"Readex Pro"!important;
+}
+.totalBox_price_container_94374a3b{
+  align-items: flex-start!important;
+  flex-direction: column;
+}
+.rbr-addBundleBtn-container.rbr-centralize.rbr-cursor-pointer span{
+  width:180px;
+}
+
+.custom-pli-wrapper {
+  padding: 30px 0;
+}
+.custom-pli-heading {
+  font-size: 24px;
+  margin: 0;
+}
+.custom-pli-form-group {
+  margin-top: 25px;
+}
+.custom-pli-label {
+  display: inline-block;
+  color: black;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.custom-pli-input {
+  display: block;
+  width: 100%;
+  border: 1px solid #777777;
+  border-radius: 100px;
+  padding: 15px 25px;
+  outline: none;
+  box-shadow: none;
+}
+.custom-pli-textarea-input {
+  display: block;
+  width: 100%;
+  border: 1px solid #777777;
+  border-radius: 15px;
+  padding: 15px 25px;
+  outline: none;
+  box-shadow: none;
+}
+.custom-pli-checkbox-title {
+  margin: 0;
+  color: black;
+  font-size: 15px;
+}
+.custom-pli-checkbox-group {
+  margin-top: 5px;
+  display: inline-block;
+  position: relative;
+}
+.custom-pli-checkbox-label {
+      text-align: center;
+    display: inline-block;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: var(--border-radius-buttons);
+    border-color: var(--color-borders-forms-primary);
+    color: var(--color-text-main);
+    padding: var(--input-padding) 1.25rem;
+    cursor: pointer;
+  margin-right: 10px;
+}
+.custom-pli-checkbox-input {
+    margin: 0!important;
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0;
+    opacity: 0;
+    z-index: -1;
+}
+.custom-pli-checkbox-input:checked + .custom-pli-checkbox-label {
+  border: 2px solid;
+}
+.custom-pli-radio-title {
+  margin: 0;
+  color: black;
+  font-size: 15px;
+}
+.custom-pli-radio-group {
+  margin-top: 5px;
+  display: inline-block;
+  position: relative;
+}
+.custom-pli-radio-label {
+      text-align: center;
+    display: inline-block;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: var(--border-radius-buttons);
+    border-color: var(--color-borders-forms-primary);
+    color: var(--color-text-main);
+    padding: var(--input-padding) 1.25rem;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.custom-pli-radio-input {
+    margin: 0!important;
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0;
+    opacity: 0;
+    z-index: -1;
+}
+.custom-pli-radio-input:checked + .custom-pli-radio-label {
+  border: 2px solid;
+}
+.custom-pli-select-input {
+  display: block;
+  width: 100%;
+  border: 1px solid #777777;
+  border-radius: 200px;
+  padding: 15px 25px;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Hide arrows by default (for larger screens) */
+.banner-card-flex .swiper-button-next,
+.banner-card-flex .swiper-button-prev {
+    display: none !important;
+  color: #000 !IMPORTANT;
+}
+
+/* Show arrows only on screens under 993px */
+@media (max-width: 1266px) {
+   /* .banner-card-flex .swiper-button-next,
+    .banner-card-flex .swiper-button-prev {
+        display: block !important;
+    }
+  .banner-card-flex .swiper-button-next {
+    margin-right: 25px;
+            top: 50%;
+        transform: translateY(20%);
+}
+
+.banner-card-flex .swiper-button-prev {
+    margin-left: 35px;
+          top: 50%;
+        transform: translateY(20%);
+} */
+     .banner-card-flex .swiper-button-next,
+    .banner-card-flex .swiper-button-prev {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        height: fit-content;
+    }
+  .banner-card-flex .swiper-button-next {
+    margin-right: 25px;
+            top: 50%;
+        transform: translateY(-50%);
+}
+
+.banner-card-flex .swiper-button-prev {
+    margin-left: 25px;
+          top: 50%;
+        transform: translateY(-50%);
+}
+
+.banner-card-flex .swiper-button-prev:after, 
+.banner-card-flex .swiper-button-next:after {
+    font-size: 20px !important;
+}
+  .banner-card-flex {
+    padding: 0 60px;
+}
+}
+/* @media(max-width: 768px){
+   .banner-card-flex .swiper-button-next {
+            margin-right: 0 !important;
+}
+} */

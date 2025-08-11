@@ -1,0 +1,215 @@
+<cart-form id="AjaxCartForm">
+
+	{%- if template != 'cart' and settings.cart_free_shipping -%}
+		<shipping-notice
+			class="cart-notice hide-if-empty-cart"
+			data-free-shipping="{{ settings.cart_free_shipping_amount | times: 100 }}"
+			data-cart-total-amount="{{ cart.total_price }}"
+		>
+		</shipping-notice>
+		<script src="{{ 'component-shipping-notice.js' | asset_url }}" defer></script>
+	{%- endif -%}
+
+	<form action="{{ routes.cart_url }}" method="post" novalidate class="cart__form {% if cart.item_count == 0 %} cart--empty {% endif %}" id="cart">
+	
+		<div class="cart-holder" data-items="{{ cart.items.size }}">
+			
+			<div class="cart__items">
+
+				{%- if cart.item_count > 0 -%}
+				
+					{%- for item in cart.items -%}
+
+						<div id="item-{{ item.id }}" class="cart-item" data-title="{{ item.product.title | escape }} {%- unless item.product.has_only_default_variant -%} ({{ item.variant.title | escape }}) {%- endunless -%}" data-id="{{ item.key }}" data-product-id="{{ item.product.id }}" data-qty="{{ item.quantity }}" data-js-cart-item>
+
+							<a href="{{ item.url }}" class="cart-item__thumbnail element--border-width-clamped element--border-radius">
+								{%- render 'lazy-image-small', image: item.image, aspect_ratio: settings.cart_image_ratio, fit: settings.cart_image_fit -%}
+							</a>
+                            <div class="custom_div">
+							<div class="cart-item__content">
+
+								<div>
+
+									<div class="cart-item__price">
+
+										{%- if item.final_line_price < item.original_line_price -%}
+											<span class="visually-hidden">{{ 'general.accessibility_labels.price.regular' | t }}</span>
+											<strong>{{ item.final_line_price | money }}</strong>
+											<span class="visually-hidden">{{ 'general.accessibility_labels.price.sale' | t }}</span>
+											<span><del>{{ item.original_line_price | money }}</del></span>
+										{%- elsif item.variant.compare_at_price > item.variant.price -%}
+											<span class="visually-hidden">{{ 'general.accessibility_labels.price.regular' | t }}</span>
+											<strong>{{ item.final_line_price | money }}</strong>
+											<span class="visually-hidden">{{ 'general.accessibility_labels.price.sale' | t }}</span>
+											<span><del>{{ item.variant.compare_at_price | times: item.quantity | money }}</del></span>
+										{%- else -%}
+											<span class="visually-hidden">{{ 'general.accessibility_labels.price.regular' | t }}</span>
+											<strong>{{ item.final_line_price | money }}</strong>
+										{%- endif -%}
+
+									</div>
+
+									{%- if item.unit_price_measurement -%}
+										<span class="cart-item__unit-price text-size--small text-color--opacity">
+											{{ item.unit_price | money }} / 
+											{% if item.unit_price_measurement.reference_value != 1 %}
+												{{ item.unit_price_measurement.reference_value }}
+											{% endif %}
+											{{ item.unit_price_measurement.reference_unit }}
+										</span>
+									{%- endif -%}
+
+									<a href="{{ item.url }}" class="cart-item__title">
+										<span class="text-animation--underline-thin">{{ item.product.title | escape }}</span>
+									</a>
+                                  <!-- CODE--BY--HAMZA -->
+                                  {% comment %}
+                                  {% if item.product.tags contains 'gift-wrap' %}
+                                     <label>
+    <input type="checkbox" class="gift-wrap-checkbox" 
+           data-key="{{ item.key }}" 
+           {% if item.properties['Gift Wrap'] == 'Yes' %}checked{% endif %}>
+    Add Gift Wrap
+</label>
+<textarea class="gift-wrap-note" 
+          data-key="{{ item.key }}" 
+          {% if item.properties['Gift Wrap'] != 'Yes' %}style="display:none;"{% endif %}>
+    {{ item.properties['Gift Note'] }}
+</textarea>{% endif %}{% endcomment %}
+									{%- unless item.product.has_only_default_variant -%}
+											{%- for option in item.options_with_values -%}
+												<span class="cart-item__variant text-size--small text-color--opacity">
+													{{ option.name }}: {{ option.value }}
+											</span>
+											{%- endfor -%}
+									{%- endunless -%}
+
+									{%- if item.selling_plan_allocation -%}
+										<span class="text-size--small">
+											{{ item.selling_plan_allocation.selling_plan.name }} 
+										</span>
+									{%- endif -%}
+
+									{%- if item.line_level_discount_allocations.size > 0 -%}
+										{%- for discount_allocation in item.line_level_discount_allocations -%}
+											<spann class="text-size--xsmall">{{ 'cart.discount' | t }} {{ discount_allocation.discount_application.title }} (-{{ discount_allocation.amount | money }})</spann>
+										{%- endfor -%}
+									{%- endif -%}
+
+									{%- assign property_size = item.properties | size -%}
+									{%- if property_size > 0 -%}
+										{%- for p in item.properties -%}
+											<span class="cart-item__variant text-size--small">
+												{%- unless p.last == blank -%}
+													{{ p.first }}: 
+													{%- if p.last contains '/uploads/' -%}
+														<a href="{{ p.last }}">
+{% assign file_type = p.last | split: '.' | last | downcase %}
+{% assign file_types = 'jpg,jpeg,webp,gif,png,apng,avif,svg,bmp,ico,tiff' | split: ',' %}
+{% if file_types contains file_type %}
+  <div class="bcpo-cart-file"><img src="{{ p.last }}" style="max-width: 50px; height: auto;"></div>
+{% else %}
+  <span class="bcpo-cart-file">Uploaded file</span>
+{% endif %}
+</a>
+													{%- else -%}
+														{{ p.last }}
+													{%- endif -%}
+												{%- endunless -%}
+											</span>
+										{%- endfor -%}
+									{%- endif -%}
+
+									<div class="cart-item__actions">
+
+										<product-quantity class="quantity-selector-holder">
+											<cart-product-quantity>
+												<button class="qty-button qty-minus no-js-hidden" aria-label="{{ 'general.accessibility_labels.decrease_quantity' | t }}" role="button" controls="updates_{{ item.id }}">
+													{%- render 'theme-symbols', icon: 'minus' -%}
+												</button>
+												<label for="qty-{{ id }}" class="visually-hidden">{{ 'general.accessibility_labels.quantity' | t }}</label>
+												<input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="qty qty-selector product__quantity" id="updates_{{ item.id }}" data-href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=$qty">
+												<button class="qty-button qty-plus no-js-hidden" aria-label="{{ 'general.accessibility_labels.increase_quantity' | t }}" role="button" controls="updates_{{ item.id }}">
+													{%- render 'theme-symbols', icon: 'plus' -%}
+												</button>
+											</cart-product-quantity>
+										</product-quantity>
+										<a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0" class="remove text-link text-size--xsmall text-color--opacity" title="{{ 'cart.remove_item' | t }}">{{ 'cart.remove_item' | t }}</a>
+			
+									</div>
+
+								</div>
+
+							</div>
+                            </div>
+						</div>
+
+					{%- endfor -%}
+
+				{%- else -%}
+
+					{{ 'cart.empty' | t }}
+
+				{%- endif -%}
+
+			</div>
+
+		</div>
+      {% comment %}
+{% render 'gift-wrapping' %}{% endcomment %}
+	</form>
+
+	<span class="cart__count hidden" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
+	<span class="cart__total hidden" aria-hidden="true" data-cart-total>{{ cart.total_price | money }}</span>
+
+</cart-form>
+
+<!-- GIFT--WRAP--SCRIPT -->
+{% comment %}
+<script>
+   // Function to update line item properties using Shopify's AJAX API
+function updateCartItem(key, properties) {
+    fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            id: key,
+            properties: properties
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Reload the page after the cart update
+            window.location.href = window.location.href; // Reloads the current page
+        } else {
+            throw new Error('Failed to update cart.');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating cart:', error);
+        // Reload the page as a fallback
+        window.location.href = window.location.href;
+    });
+}
+
+// Handle checkbox change
+document.querySelectorAll('.gift-wrap-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        const key = this.getAttribute('data-key');
+        const noteField = this.closest('div').querySelector('.gift-wrap-note');
+
+        if (this.checked) {
+            // Update "Gift Wrap: Yes" and reload
+            updateCartItem(key, { 'Gift Wrap': 'Yes' });
+        } else {
+            // Clear the note field, update properties, and reload
+            if (noteField) {
+                noteField.value = '';
+            }
+            updateCartItem(key, { 'Gift Wrap': null, 'Gift Note': null });
+        }
+    });
+});
+
+</script>
+{% endcomment %}

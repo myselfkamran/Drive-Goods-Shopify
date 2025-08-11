@@ -1,0 +1,301 @@
+{%- if template.name == 'product' -%}
+  {%- if product.metafields.custom.enable_tag_checking -%}
+  {%- for block in section.blocks -%}
+    {%- assign b = block.settings -%}
+    {%- assign tag = b.tag | strip -%}
+    {%- if b.tag != blank and product.tags contains tag -%}
+      <div class="custom-pli-wrapper">
+
+        {%- if b.heading != blank -%}
+          <h2 class="custom-pli-heading">{{- b.heading -}}</h2>
+        {%- endif -%}
+
+        {%- if b.input_text -%}
+          <div class="custom-pli-form-group">
+            <label class="custom-pli-label" for="{{- b.input_text_label | handleize -}}-{{- forloop.index -}}">{{ b.input_text_label }} {% if b.input_text_req %}<span class="custom_astr">*</span>{% endif %}</label>
+            <input
+              id="{{- b.input_text_label | handleize -}}-{{- forloop.index -}}"
+              type="text"
+              name="properties[{%  if b.input_text_label != "" %}{{- b.input_text_label -}}{%- else -%}{{- b.input_text_placeholder -}}{%- endif %}]"
+              value=""
+              class="custom-pli-input"
+              placeholder="{{- b.input_text_placeholder -}}"
+              maxlength="{{- b.input_text_maxlength -}}"
+          {% if b.input_text_req %}required{% endif %}
+          />
+          </div>
+        {%- endif -%}
+
+        {%- if b.input_number -%}
+          <div class="custom-pli-form-group">
+            <label class="custom-pli-label" for="{{- b.input_number_label | handleize -}}-{{- forloop.index -}}">{{ b.input_number_label }} {% if b.input_number_req %}<span class="custom_astr">*</span>{% endif %}</label>
+            <input
+              id="{{- b.input_number_label | handleize -}}-{{- forloop.index -}}"
+              type="number"
+              name="properties[{%  if b.input_number_label != "" %}{{- b.input_number_label -}}{%- else -%}{{- b.input_number_placeholder -}}{%- endif %}]"
+              value=""
+              class="custom-pli-input"
+              placeholder="{{- b.input_number_placeholder -}}"
+              maxlength="{{- b.input_number_maxlength -}}"
+          {% if b.input_number_req %}required{% endif %}
+          />
+          </div>
+        {%- endif -%}
+
+        {%- if b.input_textarea -%}
+          <div class="custom-pli-form-group">
+            <label class="custom-pli-label" for="{{- b.input_textarea_label | handleize -}}-{{- forloop.index -}}">{{ b.input_textarea_label }} {% if b.input_textarea_req %}<span class="custom_astr">*</span>{% endif %}</label>
+            <textarea
+              id="{{- b.input_textarea_label | handleize -}}-{{- forloop.index -}}"
+              name="properties[{%  if b.input_textarea_label != "" %}{{- b.input_textarea_label -}}{%- else -%}{{- b.input_textarea_placeholder -}}{%- endif %}]"
+              value=""
+              rows="3"
+              class="custom-pli-textarea-input"
+              placeholder="{{- b.input_textarea_placeholder -}}"
+              maxlength="{{- b.input_textarea_maxlength -}}"
+          {% if b.input_textarea_req %}required{% endif %}
+          ></textarea>
+          </div>
+        {%- endif -%}
+
+        {%- if b.input_checkbox -%}
+          <div class="custom-pli-form-group">
+            <p class="custom-pli-checkbox-title">{{ b.input_checkbox_label }}</p>
+            {%- if b.input_checkbox_values != blank -%}
+              {%- assign checkbox_values = b.input_checkbox_values | split: ',' -%}
+              {%- for value in checkbox_values -%}
+                <div class="custom-pli-checkbox-group">
+                  <input
+                    id="{{- value | handleize -}}-{{- forloop.index -}}"
+                    type="checkbox"
+                    name="properties[{{ b.input_checkbox_label }} {{ forloop.index }}]"
+                    value="{{- value -}}"
+                    class="custom-pli-checkbox-input"
+                />
+                  <label class="custom-pli-checkbox-label" for="{{- value | handleize -}}-{{- forloop.index -}}">{{- value -}}</label>
+                </div>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if b.input_radio -%}
+          <div class="custom-pli-form-group">
+            <p class="custom-pli-radio-title">{{ b.input_radio_label }} {% if b.input_radio_req %}*{% endif %}</p>
+            {%- if b.input_radio_values != blank -%}
+              {%- assign radio_values = b.input_radio_values | split: ',' -%}
+              {%- for value in radio_values -%}
+                <div class="custom-pli-radio-group">
+                  <input
+                    id="{{- value | handleize -}}-{{- forloop.index -}}"
+                    type="radio"
+                    name="properties[{{- b.input_radio_label -}}]"
+                    value="{{- value -}}"
+                    class="custom-pli-radio-input"
+                {% if b.input_radio_req %}required{% endif %}
+                />
+                  <label class="custom-pli-radio-label" for="{{- value | handleize -}}-{{- forloop.index -}}">{{- value -}}</label>
+                </div>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if b.input_dropdown -%}
+          <div class="custom-pli-form-group">
+            <label class="custom-pli-label" for="{{- b.input_dropdown_label | handleize -}}-{{- forloop.index -}}">{{ b.input_dropdown_label }} {% if b.input_dropdown_req %}<span class="custom_astr">*</span>{% endif %}</label>
+            {%- if b.input_dropdown_values != blank -%}
+              {%- assign dropdown_values = b.input_dropdown_values | split: ',' -%}
+              <select
+                id="{{- b.input_dropdown_label | handleize -}}-{{- forloop.index -}}"
+                name="properties[{{- b.input_dropdown_label -}}]"
+                class="custom-pli-select-input"
+                {% if b.input_dropdown_req %}required{% endif %}
+                >
+                {%- for value in dropdown_values -%}
+                  <option value="{{- value -}}">{{- value -}}</option>
+                {%- endfor -%}
+              </select>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+    {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Custom Line Items",
+    "class": "custom-lineitems-section",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "block",
+        "name": "Line Items",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Tag"
+          },
+          {
+            "id": "tag",
+            "type": "text",
+            "label": "Tag Name",
+            "info": "Tag Name is case-sensitive"
+          },
+          {
+            "type": "header",
+            "content": "Heading"
+          },
+          {
+            "id": "heading",
+            "type": "text",
+            "label": "Heading"
+          }, {
+            "type": "header",
+            "content": "Input Text"
+          }, {
+            "id": "input_text",
+            "type": "checkbox",
+            "label": "Enable"
+          },
+           {
+            "id": "input_text_req",
+            "type": "checkbox",
+            "label": "Required"
+          },
+          {
+            "id": "input_text_label",
+            "type": "text",
+            "label": "Label"
+          }, {
+            "id": "input_text_placeholder",
+            "type": "text",
+            "label": "Placeholder"
+          }, {
+            "id": "input_text_maxlength",
+            "type": "number",
+            "label": "Maxlength"
+          }, {
+            "type": "header",
+            "content": "Input Number"
+          }, {
+            "id": "input_number",
+            "type": "checkbox",
+            "label": "Enable"
+          }, 
+                     {
+            "id": "input_number_req",
+            "type": "checkbox",
+            "label": "Required"
+          },
+          {
+            "id": "input_number_label",
+            "type": "text",
+            "label": "Label"
+          }, {
+            "id": "input_number_placeholder",
+            "type": "text",
+            "label": "Placeholder"
+          }, {
+            "id": "input_number_maxlength",
+            "type": "number",
+            "label": "Maxlength"
+          }, {
+            "type": "header",
+            "content": "Input Textarea"
+          }, {
+            "id": "input_textarea",
+            "type": "checkbox",
+            "label": "Enable"
+          }, 
+                     {
+            "id": "input_textarea_req",
+            "type": "checkbox",
+            "label": "Required"
+          },
+          {
+            "id": "input_textarea_label",
+            "type": "text",
+            "label": "Label"
+          }, {
+            "id": "input_textarea_placeholder",
+            "type": "text",
+            "label": "Placeholder"
+          }, {
+            "id": "input_textarea_maxlength",
+            "type": "number",
+            "label": "Maxlength"
+          }, {
+            "type": "header",
+            "content": "Input Checkbox"
+          }, {
+            "id": "input_checkbox",
+            "type": "checkbox",
+            "label": "Enable"
+          },
+          {
+            "id": "input_checkbox_label",
+            "type": "text",
+            "label": "Label"
+          }, {
+            "id": "input_checkbox_values",
+            "type": "textarea",
+            "label": "Comma separated checkbox values"
+          }, {
+            "type": "header",
+            "content": "Input Radio"
+          }, {
+            "id": "input_radio",
+            "type": "checkbox",
+            "label": "Enable"
+          }, 
+                     {
+            "id": "input_radio_req",
+            "type": "checkbox",
+            "label": "Required"
+          },
+          {
+            "id": "input_radio_label",
+            "type": "text",
+            "label": "Label"
+          }, {
+            "id": "input_radio_values",
+            "type": "textarea",
+            "label": "Comma separated radio values"
+          }, {
+            "type": "header",
+            "content": "Dropdown"
+          }, {
+            "id": "input_dropdown",
+            "type": "checkbox",
+            "label": "Enable"
+          }, 
+                     {
+            "id": "input_dropdown_req",
+            "type": "checkbox",
+            "label": "Required"
+          },
+          {
+            "id": "input_dropdown_label",
+            "type": "text",
+            "label": "Label"
+          }, {
+            "id": "input_dropdown_values",
+            "type": "textarea",
+            "label": "Comma separated radio values"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Line Items",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}

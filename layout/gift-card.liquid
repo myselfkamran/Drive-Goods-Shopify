@@ -1,0 +1,95 @@
+<!doctype html>
+  {%- liquid
+    assign direction = 'ltr'
+    assign rtl_iso_codes = 'ar,he,ur,fa,pa,sd,ku' | split: ','
+    if rtl_iso_codes contains request.locale.iso_code
+      assign direction = 'rtl'
+    endif
+  -%}
+  <html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ direction }}">
+  <head>
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0">
+  
+    {% if settings.favicon_image %}
+      <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />
+    {% endif %}
+  
+    <title>{{ shop.name | escape }}</title>
+  
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+  
+    <link rel="canonical" href="{{ canonical_url }}">
+  
+    <link rel="preconnect" href="https://cdn.shopify.com">
+    {%- unless settings.headings_font.system? and settings.body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+  
+    {% render 'head-variables' %}
+  
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'section-main-gift-card.css' | asset_url | stylesheet_tag }}
+  
+    {{ 'vendor/qrcode.js' | shopify_asset_url | script_tag }}
+  
+    {{ content_for_header }}
+  
+  <!-- Algolia head -->
+    {{ 'algolia_config.js' | asset_url | script_tag }}
+
+
+
+
+
+
+<script type="text/template" id="template_algolia_money_format">{% include 'algolia_money_format' %}</script>
+<script type="text/template" id="template_algolia_current_collection_id">{% include 'algolia_current_collection_id' %}</script>
+<script type="text/template" id="template_algolia_autocomplete.css">{% include 'algolia_autocomplete.css' %}</script>
+<script type="text/template" id="template_algolia_instant_search.css">{% include 'algolia_instant_search.css' %}</script>
+{{ 'algolia_dependency_font-awesome-4-4-0.min.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'algolia_externals.js' | asset_url }}" defer></script>
+{{ 'algolia_init.js' | asset_url | script_tag }}
+<script src="{{ 'algolia_analytics.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_translations.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_helpers.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_autocomplete_suggestions_plugin.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_autocomplete_product_plugin.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_autocomplete_collections_plugin.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_autocomplete_articles_plugin.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_autocomplete_pages_plugin.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_autocomplete.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_facets.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_sort_orders.js' | asset_url }}" defer></script>
+<script src="{{ 'algolia_instant_search.js' | asset_url }}" defer></script>
+{% include 'algolia_autocomplete' %}
+{% include 'algolia_autocomplete_main_products_only' %}
+{% include 'algolia_autocomplete_page' %}
+{% include 'algolia_autocomplete_collection' %}
+{% include 'algolia_autocomplete_article' %}
+{% include 'algolia_autocomplete_product' %}
+{% include 'algolia_autocomplete_suggestion' %}
+{% include 'algolia_autocomplete_header' %}
+{% include 'algolia_autocomplete_footer' %}
+{% include 'algolia_autocomplete_no_results' %}
+{% include 'algolia_instant_search' %}
+{% include 'algolia_instant_search_stats' %}
+{% include 'algolia_instant_search_facet_show_more' %}
+{% include 'algolia_instant_search_facet_item' %}
+{% include 'algolia_instant_search_product' %}
+{% include 'algolia_instant_search_no_result' %}
+  <!-- /Algolia head -->
+
+  </head>
+  
+  <body class="template-gift-card no-touchevents">
+    
+    {{ content_for_layout }}
+  
+  </body>
+  
+  </html>

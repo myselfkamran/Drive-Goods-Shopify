@@ -1,0 +1,1049 @@
+{% if section.settings.enable_new_megamenu == true %}            
+{% render 'megamenu-assets' %}
+{% endif %}
+
+
+{%- liquid
+  assign logo_height = section.settings.logo_height
+  if logo_height > 40
+    assign logo_mobile_height = 40
+  else 
+    assign logo_mobile_height = logo_height
+  endif
+-%}
+{% style %}
+  .header__top {
+    --header-logo: {{ logo_height }}px;
+  }
+  @media screen and (max-width: 767px) {
+    .header__top {
+      --header-logo: {{ logo_mobile_height }}px;
+    }
+  }
+  .site-header {
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .site-header {
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<main-header id="site-header" class="site-header {% if section.settings.enable_new_megamenu == true %}new-megamenu-header {% endif %}" data-js-inert {% if section.settings.sticky_header %} data-sticky-header {% endif %}>
+
+  <div class="header-container header-container--top {% if section.settings.show_search %} hide-border-on-portable {% endif %}">
+    <div class="header__top container--large">
+
+      <!-- logo -->
+      <div id="logo" class="logo">
+        {%- if template == 'index' -%}<h1>{%- endif -%}
+          {%- if section.settings.logo_src -%}
+            <a class="logo-img" title="{{ shop.name | escape }}" href="{{ routes.root_url }}" style="height:var(--header-logo)">
+              <img src="{{ section.settings.logo_src | image_url }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo_src.width }}" height="{{ section.settings.logo_src.height }}" />
+            </a>
+          {%- else -%}
+            <a class="logo-txt" title="{{ shop.name | escape }}" href="{{ routes.root_url }}">{{ shop.name | escape }}</a>
+          {%- endif -%}
+        {%- if template == 'index' -%}</h1>{%- endif -%}
+      </div>
+
+      <!-- header blocks -->
+      <div class="header-actions header-actions--buttons portable-hide">
+        {%- if section.settings.show_search -%}
+          <search-form data-resource-type="product,collection{% if settings.predictive_search_include_pages %},page{% endif %}{% if settings.predictive_search_include_articles %},article{% endif %}" style="position:relative">
+            <div id="nb-search-form" class="button button--outline button--icon button--outline-hover button--no-padding button--no-hover site-search-handle">
+              <span class="button__icon" role="img" aria-hidden="true">{%- render 'theme-symbols', icon: 'search' -%}</span>
+              <form action="{{ routes.search_url }}" method="get" role="search" autocomplete="off">
+                <input class="nb-search-input" name="q" type="search" autocomplete="off" 
+                  placeholder="{{ 'search.form.placeholder' | t }}" 
+                  aria-label="{{ 'search.form.placeholder' | t }}"
+                  {% if settings.predictive_search_enabled %} 
+                    data-js-search-input
+                    data-js-focus-overlay="search-results-overlay-desktop"
+                  {% endif %}
+                />
+                <input type="hidden" name="options[prefix]" value="last" />
+                <input type="hidden" name="type" value="product{% if settings.predictive_search_include_articles %},article{% endif %}{% if settings.predictive_search_include_pages %},page{% endif %}" />
+                <button type="submit" style="display:none">{{ 'search.form.submit' | t }}</button>
+              </form>
+            </div>
+            {% if settings.predictive_search_enabled %} 
+              <div class="search-results-overlay" id="search-results-overlay-desktop" onclick="this.classList.remove('active')" style="display:none"></div>
+              <div class="search-results-container" data-js-search-results></div> 
+              <style>
+ .collection-title {
+    font-size: 16px;
+    /* font-weight: bold; */
+    color: #000;
+    margin: 16px;
+  }
+
+  .default-search-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 16px 16px;
+    overflow-y: scroll;
+    height: 15rem;
+    scrollbar-width: none;
+  }
+
+  .search-result-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: none;
+    padding: 0;
+    align-items: center;
+    background: transparent;
+  }
+
+  .search-result-item a {
+    display: flex;
+  }
+  
+  .search-result-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .search-result-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+ .search-result-content .product-price {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+  }
+
+ .search-result-content .product-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+  }
+              </style>
+              {% if section.settings.default_search_collection != blank %}
+                {% assign default_collection = collections[section.settings.default_search_collection] %}
+                {% if default_collection != blank and default_collection.products.size > 0 %}
+                  <div id="default-search-results" style="display:none">
+                    <h2 class="collection-title">{{ default_collection.title }}</h2>
+                    <div class="default-search-grid">
+                      {% for product in default_collection.products %}
+                        <div class="search-result-item">
+                          <a href="{{ product.url }}">
+                            <img src="{{ product.featured_image | image_url: width: 150 }}" alt="{{ product.title }}">
+                          </a>
+                          <div class="search-result-content">
+                            <span class="product-price">{{ product.price | money }}</span>
+                            <a href="{{ product.url }}">
+                              <span class="product-title">{{ product.title }}</span>
+                            </a>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  const searchInput = document.querySelector('.nb-search-input');
+                  const resultsContainer = document.querySelector('[data-js-search-results]');
+                  const defaultResults = document.getElementById('default-search-results');
+              
+                  if (searchInput && resultsContainer && defaultResults) {
+                    searchInput.addEventListener('focus', function () {
+                      resultsContainer.innerHTML = defaultResults.innerHTML;
+                      document.getElementById('search-results-overlay-desktop').style.display = 'block';
+                      resultsContainer.style.display = 'block';
+                      resultsContainer.classList.add('active');
+                    });
+                  }
+                });
+              </script>
+            {% endif %}
+          </search-form>
+        {%- endif -%}
+
+        {%- if shop.customer_accounts_enabled -%}
+          {%- if customer -%}
+            <a class="button button--outline button--icon" href="{{ routes.account_url }}">
+          {%- else -%}
+            <a class="button button--outline button--icon" href="{{ routes.account_login_url }}">
+          {%- endif -%}
+            <span class="button__icon" role="img" aria-hidden="true">{%- render 'theme-symbols', icon: 'account' -%}</span>
+            {{ 'general.breadcrumb.account' | t }}
+          </a>
+        {%- endif -%}
+        
+        <a 
+          class="button button--solid button--icon no-js-hidden"
+          {% if settings.cart_action == 'overlay' and template != 'cart' %} 
+            data-js-sidebar-handle aria-expanded="false" aria-controls="site-cart-sidebar" role="button"
+          {% else %}
+            href="{{ routes.cart_url }}"
+          {% endif %} 
+          title="{{ 'general.accessibility_labels.open_cart' | t }}" tabindex="0"
+        >
+          <span class="visually-hidden">{{ 'general.accessibility_labels.open_cart' | t }}</span>
+          <span class="button__icon" role="img" aria-hidden="true">{%- render 'theme-symbols', icon: 'cart' -%}</span>
+          <span  data-hulkapps-cart-total data-header-cart-total aria-hidden="true">{{ cart.total_price | money }}</span>&nbsp;
+          (<span data-header-cart-count aria-hidden="true">{{ cart.item_count }}</span>)
+        </a>
+
+        <noscript>
+          <a 
+            class="button button--solid button--icon button--regular data-js-hidden"
+            href="{{ routes.cart_url }}"
+            tabindex="0"
+          >
+            <span class="button__icon" role="img" aria-hidden="true">{%- render 'theme-symbols', icon: 'cart' -%}</span>
+            <span  data-hulkapps-cart-total data-header-cart-total aria-hidden="true">{{ cart.total_price | money }}</span>&nbsp;
+            (<span data-header-cart-count aria-hidden="true">{{ cart.item_count }}</span>)
+          </a>
+        </noscript>
+
+      </div>
+              
+      <a 
+        {% if template != 'cart' %} 
+          data-js-sidebar-handle aria-expanded="false" aria-controls="site-cart-sidebar" role="button"
+        {% else %}
+          href="{{ routes.cart_url }}"
+        {% endif %} 
+        class="mobile-cart-button hide portable-show"
+        title="{{ 'general.accessibility_labels.open_cart' | t }}" tabindex="0"
+      >
+        {%- render 'theme-symbols', icon: 'cart' -%}
+        <span  data-hulkapps-cart-total data-header-cart-total aria-hidden="true">{{ cart.total_price | money }}</span>&nbsp;
+        {% if cart.item_count > 0 %}
+          (<span data-header-cart-count aria-hidden="true">{{ cart.item_count }}</span>)
+        {% endif %}
+
+          
+      </a>
+      {% if section.settings.enable_new_megamenu == false %}
+      <button data-js-sidebar-handle class="mobile-menu-button hide portable-show" aria-expanded="false" aria-controls="site-menu-sidebar">
+        <span class="visually-hidden">{{ 'general.accessibility_labels.open_menu' | t }}</span>
+        <svg width="26" height="8" viewBox="0 0 26 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1H25" stroke="#1D1752" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10 7L25 7" stroke="#1D1752" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      {% else %}
+      <div class="new-megamenu-mobile-button" aria-expanded="false" >
+        <span class="visually-hidden">{{ 'general.accessibility_labels.open_menu' | t }}</span>
+        <svg class="new-megamenu-mobile-button-open" width="26" height="8" viewBox="0 0 26 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1H25" stroke="#1D1752" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10 7L25 7" stroke="#1D1752" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="new-megamenu-mobile-button-close" aria-hidden="true" aria-role="img">{%- render 'theme-symbols', icon: 'close' -%}</span>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+  <!-- header menu -->
+
+  {%- capture header_blocks -%}
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'info' or block.type == 'store-selector' -%}
+
+        {% if block.type == 'store-selector' %}
+
+          <div role="button"
+            data-modal
+            aria-expanded="false" aria-controls="modal-store-selector"
+            id="site-store-selector-handles"
+            tabindex="0"
+
+        {% elsif block.settings.link != blank -%}
+
+          <a href="{{ block.settings.link }}"
+            target="{{ block.settings.link_type }}"
+
+        {% else %}
+          <div 
+        {% endif %}
+
+          class="header-info-block"
+          data-type="{{ block.type }}"
+            
+        > 
+
+          {%- if block.type == 'store-selector' -%}
+
+            <div class="header-info-block__image">
+              {%- render 'icon-pack', icon: 'store' -%}
+            </div>
+            <div class="header-info-block__text">
+              <span class="header-info-block__caption text-size--xsmall" data-store-title>{{ 'store_availability.store_selector.picking_up' | t }}</span>
+              <span class="header-info-block__title">
+                <span class="text-animation--underline-in-header" data-store-label>{{ 'store_availability.store_selector.select_store_label' | t }}</span>
+                <span class="icon">{%- render 'theme-symbols', icon: 'chevron' -%}</span>
+              </span>
+            </div>
+
+          {%- else -%}
+
+            {%- if block.settings.icon != 'no-icon' or block.settings.custom_icon != blank -%}
+              <div class="header-info-block__image">
+                {%- if block.settings.custom_icon != blank -%}
+                  <img src="{{ block.settings.custom_icon | image_url: width: 76, height: 76, crop: 'center' }}" width="{{ block.settings.custom_icon.width }}" height="{{ block.settings.custom_icon.height }}" style="width:38px;height:38px" alt="{{ block.settings.custom_icon.alt | escape }}">
+                {%- else -%}
+                  {%- render 'icon-pack', icon: block.settings.icon -%}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            
+            <div class="header-info-block__text">
+              {%- if block.settings.caption != blank -%}
+                <span class="header-info-block__caption text-size--xsmall">{{ block.settings.caption | escape }}</span>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <span class="header-info-block__title">
+                  <span class="{%- if block.settings.link != blank -%} text-animation--underline-in-header {%- endif -%}">{{ block.settings.title | escape }}</span>
+                </span>
+              {%- endif -%}
+            </div>
+            
+          {%- endif -%}
+
+        {%- if block.settings.link != blank -%} </a> {%- else -%} </div> {%- endif -%}
+
+      {%- endif -%}
+    {%- endfor -%}
+
+  {%- endcapture -%}
+
+  <div class="header-container header-container--bottom {% if header_blocks == blank %} no-header-blocks {% endif %} {% if section.settings.enable_new_megamenu == true %} enable-new-megamenu{% endif %}
+    {% liquid
+      if section.settings.select_header_actions_on_mobile == 'show_always' or template == 'index' and section.settings.select_header_actions_on_mobile == 'show_on_homepage'
+        echo "show-header-actions-on-mobile"
+      else
+        echo 'portable-hide'
+      endif
+    %}
+  ">
+
+    <div class="header__bottom container--large">
+      {% if section.settings.enable_new_megamenu == false %}
+      <span class="scrollable-navigation-button scrollable-navigation-button--left" aria-hidden="true">{%- render 'theme-symbols', icon: 'chevron' -%}</span>
+      <scrollable-navigation class="header-links">
+        {%- render 'site-nav', linklist: section.settings.main_linklist, blocks: section.blocks, type: 'classic' -%}
+      </scrollable-navigation>
+      <span class="scrollable-navigation-button scrollable-navigation-button--right" aria-hidden="true">{%- render 'theme-symbols', icon: 'chevron' -%}</span>
+      {% else %}
+      <span class="scrollable-navigation-button scrollable-navigation-button--left" aria-hidden="true">{%- render 'theme-symbols', icon: 'chevron' -%}</span>
+      <scrollable-navigation class="header-links">
+        {%- render 'megamenu-new', linklist: section.settings.main_linklist, blocks: section.blocks, type: 'classic' -%}
+      </scrollable-navigation>
+      <span class="scrollable-navigation-button scrollable-navigation-button--right" aria-hidden="true">{%- render 'theme-symbols', icon: 'chevron' -%}</span>
+      {% endif %}
+      <div class="header-actions header-actions--blocks" data-js-header-actions>
+        {{ header_blocks }}
+        {% if section.settings.enable_new_megamenu == true %}
+        {%- if shop.customer_accounts_enabled -%}
+          <div class="mobile-menu-item-account">
+            <div id="menu-item-account">
+                <a class="menu-link" href="{%- liquid
+                    if customer
+                        echo routes.account_url
+                    else
+                     echo routes.account_login_url
+                    endif
+                -%}">
+                    <span style="display: inline-flex; align-items: center;">
+                        {%- render 'theme-symbols', icon: 'account' -%}
+                        {{ 'general.breadcrumb.account' | t }}
+                    </span>
+                </a>
+            </div>
+          </div>
+        {%- endif -%}
+        {% endif %}
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- header mobile search -->
+
+  {%- if section.settings.show_search -%}
+
+    <div class="header-container header--container--bottom container--large mobile-search hide portable-show">
+      <search-form data-resource-type="product,collection{% if settings.predictive_search_include_pages %},page{% endif %}{% if settings.predictive_search_include_articles %},article{% endif %}" style="position:relative">
+        <div id="nb-search-form-mob" class="button button--outline button--icon button--outline-hover button--no-padding button--no-hover site-search-handle">
+          <span class="button__icon" role="img" aria-hidden="true">{%- render 'theme-symbols', icon: 'search' -%}</span>
+          <form action="{{ routes.search_url }}" method="get" role="search" autocomplete="off">
+            <input class="nb-search-input2" name="q" type="search" autocomplete="off" 
+              placeholder="{{ 'search.form.placeholder' | t }}" 
+              aria-label="{{ 'search.form.placeholder' | t }}"
+              {% if settings.predictive_search_enabled %} 
+                data-js-search-input 
+                data-js-focus-overlay="search-results-overlay-mobile"
+              {% endif %}
+            />
+            <input type="hidden" name="options[prefix]" value="last" />
+            <input type="hidden" name="type" value="product{% if settings.predictive_search_include_articles %},article{% endif %}{% if settings.predictive_search_include_pages %},page{% endif %}" />
+            <button type="submit" style="display:none">{{ 'search.form.submit' | t }}</button>
+          </form>
+        </div>
+        {% if settings.predictive_search_enabled %} 
+          <div id="search-results-overlay-mobile" class="search-results-overlay" onclick="this.classList.remove('active')" style="display:none"></div>
+          <div class="search-results-container" data-js-search-results2></div>
+<style>
+  .mobile-search .collection-title {
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    margin: 16px;
+  }
+
+  .mobile-search .default-search-grid.mbl {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 16px 16px;
+  }
+
+  .mobile-search .search-result-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: none;
+    padding: 0;
+    align-items: center;
+    background: transparent;
+  }
+
+  .mobile-search .search-result-item a {
+    display: flex;
+  }
+  
+  .mobile-search .search-result-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .mobile-search .search-result-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .mobile-search .search-result-content .product-price {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+  }
+
+  .mobile-search .search-result-content .product-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+  }
+
+</style>
+
+
+{% if section.settings.default_search_collection != blank %}
+  {% assign default_collection = collections[section.settings.default_search_collection] %}
+  {% if default_collection != blank and default_collection.products.size > 0 %}
+    <div id="default-search-results2" style="display:none">
+      <h2 class="collection-title">{{ default_collection.title }}</h2>
+      <div class="mbl default-search-grid">
+        {% for product in default_collection.products %}
+          <div class="search-result-item">
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image | image_url: width: 150 }}" alt="{{ product.title }}">
+            </a>
+            <div class="search-result-content">
+              <span class="product-price">{{ product.price | money }}</span>
+              <a href="{{ product.url }}">
+                <span class="product-title">{{ product.title }}</span>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const searchInput = document.querySelector('.nb-search-input2');
+  const resultsContainer = document.querySelector('[data-js-search-results2]');
+  const defaultResults = document.getElementById('default-search-results2');
+  const overlay = document.getElementById('search-results-overlay-mobile');
+
+  function showDefaultResults() {
+    if (defaultResults) {
+      resultsContainer.innerHTML = defaultResults.innerHTML;
+      resultsContainer.style.display = 'block';
+      overlay.style.display = 'block';
+      resultsContainer.classList.add('active');
+    }
+  }
+
+  function hideDefaultResults() {
+    if (resultsContainer && defaultResults) {
+      resultsContainer.innerHTML = '';
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('focus', function () {
+      showDefaultResults();
+    });
+
+    searchInput.addEventListener('input', function () {
+      const query = this.value.trim();
+
+      if (query.length === 0) {
+        showDefaultResults();
+        return;
+      }
+
+      // Optional: Let predictive search handle results (Shopify auto-handles if enabled)
+      // Or add custom AJAX call to your store's predictive search endpoint
+
+      hideDefaultResults(); // hide default results once user starts typing
+    });
+
+    overlay.addEventListener('click', function () {
+      this.style.display = 'none';
+      resultsContainer.style.display = 'none';
+      resultsContainer.classList.remove('active');
+    });
+  }
+});
+</script>
+
+        {% endif %}
+      </search-form>
+    </div>
+
+  {%- endif -%}
+
+</main-header>
+
+<sidebar-drawer id="site-menu-sidebar" class="sidebar sidebar--left {% if section.settings.enable_new_megamenu == true %}mobile-new-megamenu-enable {% endif %}" tabindex="-1" role="dialog" aria-modal="true" style="display:none">
+      
+  <div class="sidebar__header">
+    <span class="sidebar__title h5">
+      {{ 'general.accessibility_labels.menu' | t }}
+    </span>
+    <button class="sidebar__close" data-js-close>
+      <span class="visually-hidden">{{ 'general.accessibility_labels.close_sidebar' | t }}</span>
+      <span aria-hidden="true" aria-role="img">{%- render 'theme-symbols', icon: 'close' -%}</span>
+    </button>
+  </div>
+
+  <div class="sidebar__body">
+    <mobile-navigation data-show-header-actions="{{ section.settings.show_header_actions }}">
+      {% if section.settings.enable_new_megamenu == false %}
+      {%- render 'site-nav', linklist: section.settings.main_linklist, blocks: section.blocks, type: 'sidebar' -%}
+      {% else %}
+      {%- render 'megamenu-new-mobile', linklist: section.settings.main_linklist, blocks: section.blocks, type: 'sidebar' -%}
+      {% endif %}
+    </mobile-navigation>
+  </div>
+
+  <div class="sidebar__footer site-menu-sidebar-footer">
+    {%- liquid
+      if section.settings.show_social_icons
+        render 'social-icons'
+      endif
+    -%}
+    {%- render 'localization-form', show_country_selector: section.settings.show_country_selector, show_locale_selector: section.settings.show_locale_selector, location: 'header' -%}
+  </div>
+
+  <link rel="stylesheet" href="{{ 'component-mobile-navigation.css' | asset_url }}" media="print" onload="this.media='all'">
+
+</sidebar-drawer>
+
+<!-- Recommended Search Results -->        
+{% render 'search-recommendation' %}            
+
+
+<style>
+.enable-new-megamenu .submenu.normal-menu .submenu-container .babymenu .babymenu-holder li.child-item a {
+    padding-left: {{section.settings.new_megamenu_item_padding }}px;
+}
+.enable-new-megamenu .submenu.normal-menu .submenu-container .babymenu .babymenu-holder .child-item-wrap:nth-child(4n+0),
+.enable-new-megamenu .submenu.normal-menu .submenu-container .babymenu .babymenu-holder .child-item-wrap.child-item-with-image {
+    padding-right: calc({{section.settings.new_megamenu_item_padding }}px - 3px);
+}
+</style>
+          
+{% schema %}
+  {
+    "name": "t:sections.split-extra-words.sections.header.name",
+    "class": "site-header-container mount-header",
+    "settings": [
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Margin Bottom",
+        "default": 20
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_src",
+        "label": "t:sections.sidebar.settings.image.label"
+      },
+      {
+        "type": "range",
+        "id": "logo_height",
+        "label": "t:sections.split-extra-words.sections.header.settings.logo_height",
+        "unit": "px",
+        "min": 20,
+        "max": 100,
+        "step": 1,
+        "default": 45
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "t:sections.split-extra-words.sections.header.settings.menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "range",
+        "id": "new_megamenu_item_padding",
+        "label": "Megamenu item padding",
+        "unit": "px",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "default": 32
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_new_megamenu",
+        "label": "Enable new mega menu",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search",
+        "label": "t:sections.sidebar.settings.search.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_header",
+        "label": "t:sections.local-extra-words.sections.header.settings.sticky.label",
+        "info": "t:sections.local-extra-words.sections.header.settings.sticky.info",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "t:sections.local-extra-words.sections.main-header.settings.mobile.header_info_blocks.header",
+        "info": "t:sections.local-extra-words.sections.main-header.settings.mobile.header_info_blocks.label_1"
+      },
+      {
+        "type": "select",
+        "id": "select_header_actions_on_mobile",
+        "label": "Choose an option",
+        "options": [
+          {
+            "value": "no",
+            "label": "Don't show"
+          },
+          {
+            "value": "show_on_homepage",
+            "label": "Show only on homepage"
+          },
+          {
+            "value": "show_always",
+            "label": "Show always"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "t:sections.local-extra-words.sections.main-header.settings.mobile.name",
+        "info": "t:sections.local-extra-words.sections.main-header.settings.mobile.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_header_actions",
+        "label": "t:sections.local-extra-words.sections.main-header.settings.mobile.header_actions",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_locale_selector",
+        "label": "t:sections.footer.settings.language_selector_show.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_country_selector",
+        "label": "t:sections.footer.settings.country_selector_show.label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_social_icons",
+        "label": "t:sections.local-extra-words.sections.announcement-bar.settings.social.label",
+        "default": true
+      },
+      {
+        "type": "collection",
+        "id": "default_search_collection",
+        "label": "Default Collection for Search Focus"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "info",
+        "name": "t:sections.local-extra-words.sections.header.blocks.info.name",
+        "limit": 2,
+        "settings": [
+          {
+            "type": "text",
+            "id": "caption",
+            "label": "t:sections.local-extra-words.sections.headings.caption",
+            "default": "Write some information"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:sections.local-extra-words.sections.headings.title",
+            "default": "About your brand"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "t:sections.image-with-text.blocks.image.settings.url.label"
+          },
+          {
+            "type": "select",
+            "id": "link_type",
+            "label": "t:sections.local-extra-words.sections.header.blocks.info.link_type.label",
+            "options": [
+              {
+                "value": "_blank",
+                "label": "t:sections.local-extra-words.sections.header.blocks.info.link_type.option__3"
+              },
+              {
+                "value": "_self",
+                "label": "t:sections.local-extra-words.sections.header.blocks.info.link_type.option__2"
+              }
+            ],
+            "default": "_self"
+          },
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "t:sections.text-columns-with-icons.blocks.icon.settings.icon.label",
+            "info": "t:sections.local-extra-words.sections.text-columns-with-icons.blocks.select_icon.info",
+            "options": [
+              {
+                "value": "no-icon",
+                "label": "No icon"
+              },
+              {
+                "value": "earth-globe",
+                "label": "Earth globe",
+                "group": "Business"
+              },
+              {
+                "value": "favorite",
+                "label": "Favorite",
+                "group": "Business"
+              },
+              {
+                "value": "flag",
+                "label": "Flag",
+                "group": "Business"
+              },
+              {
+                "value": "helpline",
+                "label": "Helpline",
+                "group": "Business"
+              },
+              {
+                "value": "like-hand",
+                "label": "Like hand",
+                "group": "Business"
+              },
+              {
+                "value": "map-marker",
+                "label": "Map marker",
+                "group": "Business"
+              },
+              {
+                "value": "security-shield",
+                "label": "Security shield",
+                "group": "Business"
+              },
+              {
+                "value": "star",
+                "label": "Star",
+                "group": "Business"
+              },
+              {
+                "value": "appointment",
+                "label": "Appointment",
+                "group": "Commerce"
+              },
+              {
+                "value": "archive-box",
+                "label": "Archive box",
+                "group": "Commerce"
+              },
+              {
+                "value": "box",
+                "label": "Box",
+                "group": "Commerce"
+              },
+              {
+                "value": "checkout-cart",
+                "label": "Checkout cart",
+                "group": "Commerce"
+              },
+              {
+                "value": "currency",
+                "label": "Currency",
+                "group": "Commerce"
+              },
+              {
+                "value": "delivery",
+                "label": "Delivery",
+                "group": "Commerce"
+              },
+              {
+                "value": "delivery-time",
+                "label": "Delivery time",
+                "group": "Commerce"
+              },
+              {
+                "value": "giftbox",
+                "label": "Giftbox",
+                "group": "Commerce"
+              },
+              {
+                "value": "label",
+                "label": "Label",
+                "group": "Commerce"
+              },
+              {
+                "value": "open-24-hours",
+                "label": "Open 24 hurs",
+                "group": "Commerce"
+              },
+              {
+                "value": "open-box",
+                "label": "Open box",
+                "group": "Commerce"
+              },
+              {
+                "value": "paper-bag",
+                "label": "Paper bag",
+                "group": "Commerce"
+              },
+              {
+                "value": "shipping-truck",
+                "label": "Shipping truck",
+                "group": "Commerce"
+              },
+              {
+                "value": "store",
+                "label": "Store",
+                "group": "Commerce"
+              },
+              {
+                "value": "time",
+                "label": "Time",
+                "group": "Commerce"
+              },
+              {
+                "value": "time-limit",
+                "label": "Time limit",
+                "group": "Commerce"
+              },
+              {
+                "value": "wallet",
+                "label": "Wallet",
+                "group": "Commerce"
+              }
+            ],
+            "default": "no-icon"
+          },
+          {
+            "type": "image_picker",
+            "id": "custom_icon",
+            "label": "t:sections.local-extra-words.sections.header.blocks.info.custom-icon.label",
+            "info": "t:sections.local-extra-words.sections.header.blocks.info.custom-icon.info"
+          }
+        ]
+      },
+      {
+        "type": "store-selector",
+        "name": "t:sections.local-extra-words.sections.header.blocks.store-selector.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "t:sections.local-extra-words.sections.header.blocks.store-selector.content"
+          }
+        ]
+      },
+      {
+        "type": "mega-menu",
+        "name": "t:sections.local-extra-words.sections.header.blocks.mega-menu.name",
+        "settings": [
+          {
+            "type": "text",
+            "id": "menu_handle",
+            "label": "t:sections.local-extra-words.sections.header.blocks.mega-menu.settings.menu_handle.label",
+            "info": "t:sections.local-extra-words.sections.header.blocks.mega-menu.settings.menu_handle.info"
+          },
+          {
+            "type": "header",
+            "content": "t:sections.split-extra-words.sections.header.settings.promotional_block.name"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_promotion_block",
+            "label": "t:sections.split-extra-words.sections.header.settings.promotional_block.settings.show.label",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "promotion_title",
+            "label": "t:sections.local-extra-words.sections.main-header.settings.promotion_block.title.label",
+            "default": "Great promotion"
+          },
+          {
+            "type": "select",
+            "id": "promotion_title_size",
+            "label": "t:sections.local-extra-words.sections.main-header.settings.promotion_block.title.size",
+            "options": [
+              {
+                "value": "text-size--large",
+                "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__1.label"
+              },
+              {
+                "value": "text-size--xlarge",
+                "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__2.label"
+              },
+              {
+                "value": "text-size--heading",
+                "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__3.label"
+              }
+            ],
+            "default": "text-size--xlarge"
+          },
+          {
+            "type": "text",
+            "id": "promotion_subtitle",
+            "label": "t:sections.local-extra-words.sections.main-header.settings.promotion_block.subtitle.label",
+            "default": "Write all about it"
+          },
+          {
+            "type": "select",
+            "id": "promotion_subtitle_size",
+            "label": "t:sections.local-extra-words.sections.main-header.settings.promotion_block.subtitle.size",
+            "options": [
+              {
+                "value": "text-size--small",
+                "label": "t:sections.local-extra-words.sections.product-card.blocks.text.settings.size.option__1"
+              },
+              {
+                "value": "text-size--regular",
+                "label": "t:sections.local-extra-words.sections.product-card.blocks.text.settings.size.option__2"
+              }
+            ],
+            "default": "text-size--regular"
+          },
+          {
+            "type": "text",
+            "id": "promotion_button_label",
+            "label": "t:sections.local-extra-words.sections.main-header.settings.promotion_block.button.label"
+          },
+          {
+            "type": "select",
+            "id": "promotion_button_size",
+            "label": "t:sections.local-extra-words.sections.main-header.settings.promotion_block.button.size",
+            "options": [
+              {
+                "value": "regular",
+                "label": "t:sections.rich-text.blocks.button.settings.button_size.options__1.label"
+              },
+              {
+                "value": "large",
+                "label": "t:sections.rich-text.blocks.button.settings.button_size.options__2.label"
+              }
+            ],
+            "default": "regular"
+          },
+          {
+            "type": "url",
+            "id": "promotion_button_link",
+            "label": "t:sections.local-extra-words.sections.main-header.settings.promotion_block.button.link"
+          },
+          {
+            "type": "color",
+            "id": "promotion_color_txt",
+            "label": "t:sections.split-extra-words.sections.header.settings.promotional_block.settings.txt_color.label",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "promotion_color_bg",
+            "label": "t:sections.split-extra-words.sections.header.settings.promotional_block.settings.bg_color.label",
+            "default": "#f3f3f3"
+          },
+          {
+            "type": "image_picker",
+            "id": "promotion_image",
+            "label": "t:sections.split-extra-words.sections.header.settings.promotional_block.settings.image.label"
+          }
+        ]
+      },
+      {
+        "type": "search-item",
+        "name": "Search Item",
+        "limit": 5,
+        "settings": [
+          {
+            "type": "text",
+            "id": "search_item_text",
+            "label": "Search Item"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

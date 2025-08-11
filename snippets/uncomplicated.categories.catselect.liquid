@@ -1,0 +1,692 @@
+
+{% comment %}All code is (c) 2016-2023 Zoom Buzz Ltd and may not be reused without written permission{% endcomment %}
+{% assign block_version_number = '1.80.0' %}
+<!-- Begin uncomplicated category select box v{{ block_version_number }}tw - PLEASE DO NOT CHANGE as this is auto-generated in an embed -->
+{%- comment -%} initialise local variables {%- endcomment -%}
+{% assign bucket_source = 'https://themeassets.aws-dns.uncomplicatedapps.com/shopify' %}
+{% assign category_hierarchy_iteration = shop.metafields.uncomptcat.cathiter.value %}
+
+<select id="uncomplicated-select" class="category-select show-styled">
+    <option value="" selected="selected" disabled="disabled">&lt;Jump to a category&gt;</option>
+    <option value="/collections/mens-collection">Men </option>
+    <option value="#">--- Clothing</option>
+    <option value="/collections/mens-shirts">--- --- Shirts**</option>
+    <option value="/collections/charles-tyrwhitt-shirts">--- --- Charles Tyrwhitt</option>
+    <option value="/collections/enod">--- --- Enod </option>
+    <option value="/collections/brachsoni-mens">--- --- Brachsoni</option>
+    <option value="/collections/ilmio">--- --- Ilmio</option>
+    <option value="/collections/mens-van-guard-shirts">--- --- Van Guard</option>
+    <option value="/products/mens-orient-super-shirt">--- --- Orient Super</option>
+    <option value="/collections/mens-regular-fit-shirt">--- --- Regular Fit</option>
+    <option value="/collections/mens-slim-fit-shirt">--- --- Slim Fit</option>
+    <option value="#">--- --- Underwear**</option>
+    <option value="/collections/mens-undershirts">--- --- Undershirts</option>
+    <option value="/collections/mens-shorts">--- --- Chassidish Shorts</option>
+    <option value="/collections/mens-boxer-shorts">--- --- Boxer Shorts</option>
+    <option value="/collections/mens-boxer-briefs">--- --- Boxer Briefs</option>
+    <option value="/collections/pants-mens">--- --- Pants**</option>
+    <option value="/collections/madison-pants">--- --- Madison </option>
+    <option value="/collections/enod-pants">--- --- Enod</option>
+    <option value="/collections/mens-pants-regular-fit">--- --- Regular Fit</option>
+    <option value="/collections/mens-slim-pants">--- --- Slim Fit</option>
+    <option value="/collections/night-shirts-mens">--- --- Sleepwear**</option>
+    <option value="/collections/mens-sleepwear-nightshirts">--- --- Pajamas</option>
+    <option value="/collections/mens-sleepwear-nightshirts-1">--- --- Night Shirts</option>
+    <option value="/collections/mens-morning-robes">--- --- Morning Robes</option>
+    <option value="/collections/mens-slippers-1">--- --- Slippers</option>
+    <option value="/collections/challat-mens">--- --- Challat**</option>
+    <option value="/collections/mens-regular-challat">--- --- Challat</option>
+    <option value="/products/mens-madison-challat-suit">--- --- Suit Challat</option>
+    <option value="/collections/mens-bekitche">--- --- Bektiches</option>
+    <option value="/collections/mens-socks">--- --- Socks**</option>
+    <option value="/collections/mens-short-socks">--- --- Short Socks</option>
+    <option value="/collections/mens-designed-socks">--- --- Designed Socks</option>
+    <option value="/collections/mens-long-socks">--- --- Long Socks</option>
+    <option value="/collections/mens-tall-socks">--- --- Tall Socks</option>
+
+    <option value="/collections/judaica">--- Judaica</option>
+    <option value="/collections/mens-tzitzis">--- --- Tzitzis**</option>
+    <option value="/collections/mens-cotton-tzitzis">--- --- Cotton Tzitzis</option>
+    <option value="/collections/mens-wool-tzitzis">--- --- Wool Tzitzis</option>
+    <option value="/products/cotton-mesh-tzitzis">--- --- Mesh Tzitzis</option>
+    <option value="/collections/kapplech">--- --- Kapplech**</option>
+    <option value="/collections/velvet-kapplech">--- --- Velvet Kapplech</option>
+    <option value="/collections/shluff-kapplech-white">--- --- Shluff Kapplech</option>
+    <option value="/collections/gartlech">--- --- Gartlech**</option>
+    <option value="/collections/hand-made-gartlech">--- --- Hand Made Gartlech</option>
+    <option value="/collections/machine-made-gartlech">--- --- Machine Made Gartlech</option>
+    <option value="/collections/shabbos-gartel">--- --- Shabbos Gartlech</option>
+    <option value="/collections/white-gartlech">--- --- White Gartlech</option>
+    <option value="/collections/weekday-gartel">--- --- Weekday Gartlech</option>
+
+    <option value="/collections/accessories-mens">--- Accessories</option>
+    <option value="/collections/mens-winter-rain">--- --- Rain**</option>
+    <option value="/collections/mens-rain-meil">--- --- Raincoats &amp; Accessories</option>
+    <option value="/collections/mens-umbrellas">--- --- Umbrellas</option>
+    <option value="/collections/mens-belts">--- --- Belts &amp; Suspenders**</option>
+    <option value="/collections/mens-full-buckle-belts">--- --- Full Buckle Track Belts</option>
+    <option value="/collections/mens-hollow-buckle-belts">--- --- Hollow Buckle Track Belts</option>
+    <option value="/collections/mens-leather-belt">--- --- Leather Belts</option>
+    <option value="/collections/mens-clip-suspenders">--- --- Clip Suspenders</option>
+    <option value="/collections/mens-button-suspender">--- --- Button Suspenders</option>
+    <option value="/collections/activewear">--- --- Activewear**</option>
+    <option value="/collections/mens-sweatpants">--- --- Sweatpants</option>
+    <option value="/collections/mens-t-shirts">--- --- T-Shirts</option>
+    <option value="/collections/mens-undershirt-tzitzis">--- --- Undershirt Tzitzis</option>
+    <option value="/collections/slippers">--- --- Footwear**</option>
+    <option value="/collections/tingley-footwear">--- --- Tingley Footwear</option>
+    <option value="/collections/mens-slippers-1">--- --- Slippers</option>
+    <option value="/collections/mens-boots">--- --- Boots</option>
+    <option value="/collections/accessories-mens">--- --- Accessories**</option>
+    <option value="/collections/mens-wallets">--- --- Wallets</option>
+    <option value="/collections/mens-tefillin-accessories">--- --- Tefillin Accessories</option>
+    <option value="/collections/mens-reflectors">--- --- Reflectors</option>
+    <option value="/collections/mens-hair">--- --- Hair</option>
+    <option value="/collections/mens-odds-ends">--- --- Odds &amp; Ends</option>
+
+    <option value="#">--- Seasonal</option>
+    <option value="/collections/sweaters-mens">--- --- Sweaters**</option>
+    <option value="/collections/mens-cotton-sweaters">--- --- Cotton Sweaters</option>
+    <option value="/collections/mens-wool-sweaters">--- --- Wool Sweaters</option>
+    <option value="/collections/mens-sweaters-buttoned">--- --- Button Sweaters</option>
+    <option value="/collections/men-sweaters-zippered">--- --- Zippered Sweaters</option>
+    <option value="/collections/mens-hoodies">--- --- Hoodie Sweatshirts</option>
+    <option value="/collections/mens-winter-wear">--- --- Winter Items**</option>
+    <option value="#">--- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- White Scarves</option>
+
+    <option value="/collections/mens-gloves">--- --- Gloves</option>
+    <option value="/collections/mens-ear-muffs">--- --- Ear Muffs</option>
+    <option value="/collections/datchiks">--- --- Datchiks</option>
+    <option value="/collections/sweaters-mens">--- --- Sweaters</option>
+    <option value="/collections/mens-snow-shoe-wear">--- --- Shoe Wear</option>
+    <option value="/collections/winter-items">--- --- Snow Accessories</option>
+    <option value="/collections/mens-swimming">--- --- Summer Items**</option>
+    <option value="/collections/mens-swim-tops">--- --- Swim Tops</option>
+    <option value="/collections/mens-swim-pants">--- --- Swim Pants</option>
+    <option value="/collections/mens-goggles-nose-clip">--- --- Goggles &amp; Nose Clips</option>
+    <option value="/collections/mens-bathrobes">--- --- Bathrobes</option>
+
+
+    <option value="/collections/womens-collection">Women </option>
+    <option value="#">--- Clothing</option>
+    <option value="/collections/ladys-underwear">--- --- Underwear**</option>
+    <option value="/collections/ladies-panties">--- --- Panties</option>
+    <option value="/collections/ladys-undershirts">--- --- Undershirts</option>
+    <option value="/collections/ladies-slips">--- --- Slips</option>
+    <option value="/collections/ladies-tights">--- --- Tights**</option>
+    <option value="/collections/palm-tights">--- --- Palm Tights</option>
+    <option value="/collections/ladys-butterfly-tights">--- --- Butterfly Tights</option>
+    <option value="/collections/ladies-black-tights">--- --- Black Tights</option>
+    <option value="/collections/ladys-knee-highs-tights">--- --- Knee Highs</option>
+    <option value="/collections/blouses-shells">--- --- Blouses &amp; Shells**</option>
+    <option value="/collections/ladys-blouses">--- --- Blouses</option>
+    <option value="/collections/ladys-dickies">--- --- Dickies</option>
+    <option value="/collections/ladys-shells">--- --- Shells</option>
+    <option value="/collections/ladys-crop-shells">--- --- Crop Shells</option>
+
+    <option value="#">--- Accessories</option>
+    <option value="/collections/ladys-rain-accessories">--- --- Rain**</option>
+    <option value="/collections/ladys-raincoats">--- --- Raincoats</option>
+    <option value="/collections/rain-bonnets">--- --- Rain Bonnets</option>
+    <option value="/collections/ladys-umbrellas">--- --- Umbrellas</option>
+    <option value="/collections/turban-liners">--- --- Turban Liners**</option>
+    <option value="/collections/terry-turban-liners">--- --- Terry Turban Liners</option>
+    <option value="/collections/thin-turban-liner">--- --- Thin Turban Liners</option>
+    <option value="/collections/turban-liners-with-sponge">--- --- Sponge Turban Liners</option>
+    <option value="/collections/ladys-aprons">--- --- Aprons**</option>
+    <option value="/collections/ladys-aprons">--- --- Aprons</option>
+
+    <option value="#">--- Seasonal</option>
+    <option value="/collections/ladies-summer-items">--- --- Summer Items**</option>
+    <option value="/collections/ladys-swim-dress">--- --- Swim Dresses</option>
+    <option value="/products/ladies-swim-bandana">--- --- Swim Bandanas</option>
+    <option value="/collections/goggles-nose-clips">--- --- Goggles &amp; Nose Clips</option>
+    <option value="/collections/swim-bags">--- --- Swim Bags</option>
+    <option value="/collections/winter-gloves-ladies">--- --- Winter Items**</option>
+    <option value="/collections/winter-gloves-ladies">--- --- Gloves</option>
+
+
+    <option value="/collections/boys-collections">Boys </option>
+    <option value="/collections/boys-collections">--- Clothing</option>
+    <option value="/collections/boys-shirts">--- --- Shirts**</option>
+    <option value="/collections/boys-regular-shirts">--- --- Regular Fit</option>
+    <option value="/collections/boys-slim-fit-shirts">--- --- Slim Fit</option>
+    <option value="/collections/boys-husky-shirts">--- --- Husky Fit</option>
+    <option value="/collections/boys-textured-shirts">--- --- White on White</option>
+    <option value="/collections/boys-underwear">--- --- Underwear**</option>
+    <option value="/collections/boys-undershirts">--- --- Undershirts</option>
+    <option value="/collections/boys-briefs-1">--- --- Briefs</option>
+    <option value="/collections/boys-boxer-shorts">--- --- Boxer Shorts</option>
+    <option value="/collections/boys-shorts">--- --- Chassidish Shorts</option>
+    <option value="/collections/pants-boys">--- --- Pants**</option>
+    <option value="/collections/boys-regular-fit">--- --- Regular Fit</option>
+    <option value="/collections/boys-slim-fit-pants">--- --- Slim Fit</option>
+    <option value="/collections/boys-husky-pants">--- --- Husky Fit</option>
+    <option value="/collections/boys-shabbos-pants">--- --- Shabbos </option>
+    <option value="/collections/boys-weekday-pants">--- --- Weekday</option>
+    <option value="/collections/bucherim-pants">--- --- Bucherim </option>
+    <option value="/collections/boys-sleepwear">--- --- Sleepwear**</option>
+    <option value="/collections/boys-pajamas">--- --- Pajamas</option>
+    <option value="/collections/boys-nightshirts">--- --- Night Shirts</option>
+    <option value="/collections/boy-knit-sleepwear">--- --- Knit Sleepwear</option>
+    <option value="/collections/boys-woven-sleepwear">--- --- Woven Sleepwear</option>
+    <option value="/collections/boys-challat-bekitche">--- --- Challat**</option>
+    <option value="/collections/challat-boys">--- --- Challat</option>
+    <option value="/products/boys-madison-challat-suit">--- --- Suit Challat</option>
+    <option value="/collections/boys-bekitche-1">--- --- Bekitches</option>
+    <option value="/collections/boys-socks">--- --- Socks**</option>
+    <option value="/collections/boys-socks">--- --- Socks</option>
+
+    <option value="#">--- Judaica</option>
+    <option value="/collections/tzitzis">--- --- Tzitzis**</option>
+    <option value="/collections/boys-cotton-tzitzis">--- --- Cotton Tzitzis</option>
+    <option value="/collections/mens-wool-tzitzis">--- --- Wool Tzitzis</option>
+    <option value="/products/cotton-mesh-tzitzis">--- --- Mesh Tzitzis</option>
+    <option value="/collections/kapplech">--- --- Kapplech**</option>
+    <option value="/collections/velvet-kapplech">--- --- Velvet Kapplech</option>
+    <option value="/collections/shluff-kapplech-white">--- --- Shluff Kapplech</option>
+    <option value="/collections/gartlech">--- --- Gartlech**</option>
+    <option value="/collections/hand-made-gartlech">--- --- Hand Made Gartlech</option>
+    <option value="/collections/machine-made-gartlech">--- --- Machine Made Gartlech</option>
+    <option value="/collections/shabbos-gartel">--- --- Shabbos Gartlech</option>
+    <option value="/collections/weekday-gartel">--- --- Weekday Gartlech</option>
+
+    <option value="/collections/boys-accessories">--- Accessories</option>
+    <option value="/collections/boys-rain-coats">--- --- Rain**</option>
+    <option value="/collections/boys-rain-coats">--- --- Raincoats &amp; Accessories</option>
+    <option value="/collections/mens-umbrellas">--- --- Umbrellas</option>
+    <option value="/collections/boys-belts">--- --- Belts &amp; Suspenders**</option>
+    <option value="/collections/boys-elastic-belts">--- --- Elastic Belts</option>
+    <option value="/collections/boys-leather-track-belts">--- --- Leather Track Belts</option>
+    <option value="/collections/boys-leather-belts">--- --- Leather Belts</option>
+    <option value="/collections/kids-suspenders-1">--- --- Suspenders</option>
+    <option value="/collections/boys-accessories">--- --- Accessories**</option>
+    <option value="/collections/mens-hair">--- --- Hair Accessories</option>
+    <option value="/collections/reflectors">--- --- Reflectors</option>
+    <option value="/collections/mens-tefillin-accessories">--- --- Tefillin Accessories</option>
+    <option value="/collections/mens-wallets">--- --- Wallets</option>
+
+    <option value="#">--- Seasonal</option>
+    <option value="/collections/boys-sweaters">--- --- Sweaters**</option>
+    <option value="/collections/boys-buttoned-sweaters">--- --- Buttoned Sweaters</option>
+    <option value="/collections/boys-zippered-sweater">--- --- Zippered Sweaters</option>
+    <option value="/products/abstract-black-hoodie">--- --- Hoodies</option>
+    <option value="/collections/boys-summer-collection">--- --- Summer Items**</option>
+    <option value="/collections/boys-swim-tops">--- --- Swim Tops</option>
+    <option value="/collections/boys-swim-pants">--- --- Swim Pants</option>
+    <option value="/collections/boys-bathrobes">--- --- Bathrobes</option>
+    <option value="/collections/boys-goggles-nose-clip">--- --- Goggles &amp; Nose Clips</option>
+    <option value="/collections/swim-bags-1">--- --- Swim Bags</option>
+    <option value="/collections/boys-winter-rain">--- --- Winter Items**</option>
+    <option value="/collections/boys-boots-1">--- --- Boots</option>
+    <option value="#">--- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- White Scarves</option>
+
+    <option value="/collections/boys-gloves">--- --- Gloves</option>
+    <option value="/collections/boys-ear-muffs">--- --- Ear Muffs</option>
+    <option value="/collections/binders-accessories">--- --- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- --- Gloves</option>
+    <option value="#">--- --- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- --- Accessories**</option>
+    <option value="#">--- --- --- Shovel</option>
+    <option value="#">--- --- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- --- Ice Salt</option>
+
+
+
+    <option value="/collections/girls-collection">Girls </option>
+    <option value="#">--- Clothing</option>
+    <option value="/collections/girls-underwear">--- --- Underwear**</option>
+    <option value="/collections/girls-panties">--- --- Panties</option>
+    <option value="/collections/girls-undershirts">--- --- Undershirts</option>
+    <option value="/collections/slip-girls">--- --- Slips</option>
+    <option value="/collections/teen-beginner-undershirts-training-bra">--- --- Beginners</option>
+    <option value="/collections/girls">--- --- Tights**</option>
+    <option value="/collections/girls-microfiber-tights">--- --- Microfiber Tights</option>
+    <option value="/collections/girls-opaque-tights">--- --- Opaque Tights</option>
+    <option value="/collections/cotton-tights">--- --- Cotton Tights</option>
+    <option value="/collections/girls-ribbed-tights">--- --- Ribbed Tights</option>
+    <option value="/collections/t-shirts-dickies">--- --- Blouses &amp; T-Shirts**</option>
+    <option value="/collections/girls-blouse">--- --- Blouses</option>
+    <option value="#">--- --- T-Shirts</option>
+    <option value="/collections/girls-dickies">--- --- Dickies</option>
+    <option value="/collections/girls-turtlenecks">--- --- Turtlenecks</option>
+    <option value="/collections/school-approved-clothing">--- --- UTA School Uniforms**</option>
+    <option value="/collections/uniform-jumpers">--- --- Jumpers</option>
+    <option value="/collections/uniform-skirts">--- --- Skirts</option>
+    <option value="/collections/uniform-shirts">--- --- Shirts</option>
+    <option value="/collections/uniform-sweaters">--- --- Sweaters</option>
+    <option value="/collections/uniform-dresses">--- --- Dresses</option>
+    <option value="/collections/uniform-dickies">--- --- Dickies</option>
+
+    <option value="/collections/accessories-girls">--- Accessories</option>
+    <option value="/collections/kids-rain-coats">--- --- Rain**</option>
+    <option value="/collections/kids-rain-coats">--- --- Raincoats</option>
+    <option value="/collections/girls-umbrellas">--- --- Umbrellas</option>
+    <option value="/collections/accessories-girls">--- --- Accessories**</option>
+    <option value="/collections/petty-coats">--- --- Petty Coats</option>
+    <option value="/collections/girls-socks">--- --- Night Socks</option>
+    <option value="/collections/girls-hair-accessories">--- --- Hair Accessories</option>
+
+    <option value="#">--- Seasonal</option>
+    <option value="/collections/girls-swimming">--- --- Summer Items**</option>
+    <option value="/collections/girls-swim-dresses">--- --- Swim Dresses</option>
+    <option value="/products/swim-cap-girls">--- --- Swim Caps</option>
+    <option value="/collections/goggles-nose-clips">--- --- Goggles &amp; Nose Clips</option>
+    <option value="/collections/swim-bags">--- --- Swim Bags</option>
+    <option value="/collections/tubes">--- --- Tubes</option>
+    <option value="/collections/girls-winter-accessories">--- --- Winter Items**</option>
+    <option value="/collections/winter-gloves-kids">--- --- Gloves &amp; Scarves</option>
+    <option value="/collections/binders-accessories">--- --- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- --- Gloves</option>
+    <option value="#">--- --- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- --- Accessories**</option>
+    <option value="#">--- --- --- Shovel</option>
+    <option value="#">--- --- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- --- Ice Salt</option>
+
+
+
+    <option value="/collections/babies-collection">Babies </option>
+    <option value="/collections/babies-collection">--- Clothing</option>
+    <option value="/collections/baby-onesies-undershirts">--- --- Onesies**</option>
+    <option value="/collections/baby-camis-straps-undershirts">--- --- Camisole Undershirts</option>
+    <option value="/collections/baby-sleeveless-undershirts">--- --- Sleeveless Undershirts</option>
+    <option value="/collections/baby-short-sleeves-undershirts">--- --- Short Sleeves Undershirts</option>
+    <option value="/collections/baby-t-shirts">--- --- T-Shirts**</option>
+    <option value="#">--- --- Long Sleeves T-Shirts</option>
+    <option value="#">--- --- Short Sleeves T-Shirts</option>
+    <option value="/collections/baby-leggings-training">--- --- Leggings**</option>
+    <option value="/collections/baby-leggings-training">--- --- Leggings</option>
+    <option value="/collections/baby-cotton-tights">--- --- Cotton Tights</option>
+
+    <option value="/collections/baby-accessories">--- Accessories</option>
+    <option value="/collections/crib">--- --- Crib Sheets**</option>
+    <option value="/collections/regular-crib-sheets">--- --- Regular Crib Sheets</option>
+    <option value="/collections/porta-crib-sheet">--- --- Porta Crib Sheets</option>
+    <option value="/collections/cradle-sheets">--- --- Cradle Sheets</option>
+    <option value="/collections/baby-nursing-bibs">--- --- Bibs &amp; Smocks**</option>
+    <option value="/collections/baby-bibs">--- --- Bibs</option>
+    <option value="/collections/baby-smocks">--- --- Smocks</option>
+    <option value="/collections/bibby-sitter">--- --- Bibby - Sitter</option>
+    <option value="/collections/baby-accessories">--- --- Accessories**</option>
+    <option value="/collections/diapers">--- --- Diapers</option>
+    <option value="/collections/baby-training-pants">--- --- Training Pants</option>
+
+
+    <option value="/collections/household-general-collection">Household </option>
+    <option value="/collections/mattress-pads">--- General</option>
+    <option value="/collections/household-general-collection">--- --- General Essentials**</option>
+    <option value="/collections/dish-towels">--- --- Dish Towels</option>
+    <option value="/collections/tablecloth-liners-plastics">--- --- Tablecloth Liners</option>
+    <option value="/collections/umbrellas">--- --- Umbrellas</option>
+    <option value="/collections/hooks">--- --- Hooks</option>
+    <option value="/collections/grooming">--- --- Grooming</option>
+    <option value="#">--- --- Electronics**</option>
+    <option value="/collections/alarm-clocks">--- --- Alarm Clocks</option>
+    <option value="/collections/batteries">--- --- Batteries</option>
+    <option value="/collections/sd-cards">--- --- SD Cards</option>
+    <option value="#">--- --- Cables &amp; Chargers</option>
+    <option value="#">--- --- Ear Pods</option>
+    <option value="/collections/laundry">--- --- Laundry**</option>
+    <option value="/collections/laundry-basics">--- --- Laundry Basics</option>
+    <option value="/collections/tzitzis-care">--- --- Tzitzis Care</option>
+    <option value="/collections/clothing-hangers">--- --- Hangers</option>
+    <option value="/collections/sewing">--- --- Sewing**</option>
+    <option value="/collections/sewing">--- --- Sewing Notions</option>
+    <option value="/collections/laundry-labels">--- --- Laundry Labels</option>
+    <option value="/collections/reflectors">--- --- Reflectors</option>
+
+    <option value="/collections/mattress-pads">--- Bedding</option>
+    <option value="/collections/pillows">--- --- Pillows**</option>
+    <option value="/collections/pillows">--- --- Pillows</option>
+    <option value="/collections/pillow-protectors">--- --- Pillow Protectors</option>
+    <option value="/collections/comforters">--- --- Comforters**</option>
+    <option value="/collections/comforters">--- --- Comforters</option>
+    <option value="/collections/mattress-pads-1">--- --- Mattress Pads**</option>
+    <option value="/collections/waterproof-mattress-pads">--- --- Waterproof Mattress Pads</option>
+    <option value="/collections/quilted-mattress-pads">--- --- Quilted Mattress Pads</option>
+    <option value="/collections/vinyl-mattress-sheets">--- --- Vinyl Mattress Pads</option>
+    <option value="#">--- --- Bed &amp; Crib Sheets**</option>
+    <option value="/collections/bed-sheets">--- --- Fitted Bed Sheets</option>
+    <option value="/collections/crib">--- --- Crib Sheets</option>
+
+    <option value="/collections/school-supplies">--- School Supplies</option>
+    <option value="#">--- --- Adhesives / Corrections**</option>
+    <option value="/collections/adhesives-corrections">--- --- Adhesives</option>
+    <option value="/collections/adhesives-corrections">--- --- Corrections</option>
+    <option value="/collections/binders-accessories">--- --- Binders / Accessories**</option>
+    <option value="/collections/binders-accessories">--- --- Binders</option>
+    <option value="/collections/binders-accessories">--- --- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- --- Gloves</option>
+    <option value="#">--- --- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- --- Accessories**</option>
+    <option value="#">--- --- --- Shovel</option>
+    <option value="#">--- --- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- --- Ice Salt</option>
+
+    <option value="/collections/folders">--- --- Folders / Organizers**</option>
+    <option value="/collections/folders">--- --- Folders</option>
+    <option value="/collections/organizers">--- --- Organizers</option>
+    <option value="/collections/crafts">--- --- Crafts / Supplies**</option>
+    <option value="/collections/crafts">--- --- Crafts</option>
+    <option value="/collections/supplies">--- --- Supplies</option>
+    <option value="/collections/papers">--- --- Papers / Penning**</option>
+    <option value="/collections/papers">--- --- Papers</option>
+    <option value="/collections/penning">--- --- Penning</option>
+    <option value="/collections/judaica">--- --- Judaica**</option>
+    <option value="/collections/judaica">--- --- Judaica</option>
+    <option value="/collections/mens-tzitzis">--- --- --- Tzitzis**</option>
+    <option value="/collections/mens-cotton-tzitzis">--- --- --- Cotton Tzitzis</option>
+    <option value="/collections/mens-wool-tzitzis">--- --- --- Wool Tzitzis</option>
+    <option value="/products/cotton-mesh-tzitzis">--- --- --- Mesh Tzitzis</option>
+    <option value="/collections/kapplech">--- --- --- Kapplech**</option>
+    <option value="/collections/velvet-kapplech">--- --- --- Velvet Kapplech</option>
+    <option value="/collections/shluff-kapplech-white">--- --- --- Shluff Kapplech</option>
+    <option value="/collections/gartlech">--- --- --- Gartlech**</option>
+    <option value="/collections/hand-made-gartlech">--- --- --- Hand Made Gartlech</option>
+    <option value="/collections/machine-made-gartlech">--- --- --- Machine Made Gartlech</option>
+    <option value="/collections/shabbos-gartel">--- --- --- Shabbos Gartlech</option>
+    <option value="/collections/white-gartlech">--- --- --- White Gartlech</option>
+    <option value="/collections/weekday-gartel">--- --- --- Weekday Gartlech</option>
+
+
+
+    <option value="/collections/winter-items-1">Winter Items</option>
+    <option value="/collections/mens-winter-wear">--- Mens Winter </option>
+    <option value="/collections/mens-scarves">--- --- Scarves**</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- Brush Silk </option>
+    <option value="/collections/cashmere-scarves">--- --- Cashmere </option>
+    <option value="/collections/cotton-scarves">--- --- Cotton </option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- Baby Wool </option>
+    <option value="/collections/wool-scarves">--- --- Wool </option>
+    <option value="/collections/rabbit-fur-scarves">--- --- Rabbit Fur </option>
+    <option value="/collections/imitation-fur-scarves">--- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- White</option>
+    <option value="/collections/mens-gloves">--- --- Gloves**</option>
+    <option value="/collections/mens-gloves">--- --- Gloves</option>
+    <option value="/collections/mens-ear-muffs">--- --- Ear Muffs**</option>
+    <option value="#">--- --- Headphone Style </option>
+    <option value="/products/fur-ear-muffs-with-rubber">--- --- Rubber Closure</option>
+    <option value="/products/fur-ear-muffs-with-velcro">--- --- Velcro Closure</option>
+    <option value="/collections/kutchmas">--- --- Kutchmas</option>
+    <option value="/collections/datchiks">--- --- Datchiks</option>
+    <option value="/collections/sweaters-mens">--- --- Sweaters**</option>
+    <option value="/collections/mens-cotton-sweaters">--- --- Cotton Sweaters</option>
+    <option value="/collections/mens-wool-sweaters">--- --- Wool Sweaters</option>
+    <option value="/collections/mens-sweaters-buttoned">--- --- Button Sweaters</option>
+    <option value="/collections/men-sweaters-zippered">--- --- Zippered Sweaters</option>
+    <option value="/collections/mens-hoodies">--- --- Hoodie Sweatshirts</option>
+    <option value="/collections/mens-snow-shoe-wear">--- --- Snow Shoe Wear**</option>
+    <option value="/collections/tingley">--- --- Tingley Rubber Shoes</option>
+    <option value="/collections/tingley-footwear">--- --- Tingley Rubber Boots</option>
+    <option value="/products/mens-tundra-boots">--- --- Tundra Boots</option>
+
+    <option value="/collections/boys-winter-rain">--- Boys Winter </option>
+    <option value="/collections/boys-ear-muffs">--- --- Ear Muffs**</option>
+    <option value="#">--- --- Headphone Style</option>
+    <option value="/products/fur-ear-muffs-with-rubber">--- --- Rubber Closure</option>
+    <option value="/products/fur-ear-muffs-with-velcro">--- --- Velcro Closure</option>
+    <option value="/collections/boys-gloves">--- --- Gloves**</option>
+    <option value="/collections/boys-gloves">--- --- Gloves</option>
+    <option value="/products/kids-winter-knit-mittens">--- --- Mittens</option>
+    <option value="/collections/boys-scarves">--- --- Scarves**</option>
+    <option value="#">--- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- White Scarves</option>
+
+    <option value="/collections/boys-sweaters">--- --- Sweaters**</option>
+    <option value="/collections/boys-buttoned-sweaters">--- --- Button Sweaters</option>
+    <option value="/collections/boys-zippered-sweater">--- --- Zippered Sweaters</option>
+    <option value="#">--- --- Hoodies</option>
+    <option value="/collections/boys-winter-accessories">--- --- Accessories**</option>
+    <option value="/collections/boys-boots-1">--- --- Boots</option>
+    <option value="/products/48-long-sled">--- --- Sleds</option>
+    <option value="/products/kids-shovel-wood-handle">--- --- Shovel</option>
+
+    <option value="/collections/binders-accessories">--- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- Gloves</option>
+    <option value="#">--- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- Accessories**</option>
+    <option value="#">--- --- Shovel</option>
+    <option value="#">--- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- Ice Salt</option>
+
+
+    <option value="/collections/summer-items">Summer &amp; Camp </option>
+    <option value="/collections/summer-items-swimming-boys">--- Swimming</option>
+    <option value="/collections/mens-swimwear">--- --- Mens Swimwear**</option>
+    <option value="/collections/mens-swim-tops">--- --- Swim Tops</option>
+    <option value="/collections/mens-swim-pants">--- --- Swim Pants</option>
+    <option value="/collections/mens-bathrobes">--- --- Bathrobes</option>
+    <option value="/collections/boys-swimwear">--- --- Boys Swimwear**</option>
+    <option value="/collections/boys-swim-tops">--- --- Swim Tops</option>
+    <option value="/collections/boys-swim-pants">--- --- Swim Pants</option>
+    <option value="/collections/boys-bathrobes">--- --- Bathrobes</option>
+    <option value="/collections/ladies-swimwear">--- --- Ladies Swimwear**</option>
+    <option value="/collections/ladys-swim-dress">--- --- Swim Dresses</option>
+    <option value="/products/ladies-swim-bandana">--- --- Swim Bandanas</option>
+    <option value="/collections/girls-swimwear">--- --- Girls Swimwear**</option>
+    <option value="/collections/girls-swim-dresses">--- --- Swim Dresses</option>
+    <option value="/products/swim-cap-girls">--- --- Swim Caps</option>
+    <option value="/collections/swim-gear">--- --- Swim Gear**</option>
+    <option value="/collections/goggles-nose-clips">--- --- Goggles &amp; Nose Clips</option>
+    <option value="/collections/tubes">--- --- Tubes</option>
+    <option value="/collections/swim-bags">--- --- Swim Bags</option>
+    <option value="/collections/pools">--- --- Pools</option>
+
+    <option value="/collections/summer-items-camp-essentials">--- Camp Essentials</option>
+    <option value="/collections/laundry">--- --- Laundry**</option>
+    <option value="/collections/laundry-sacks">--- --- Laundry Sacks</option>
+    <option value="/collections/mesh-bags">--- --- Mesh Bags</option>
+    <option value="/collections/shower-bags">--- --- Shower Bags</option>
+    <option value="/collections/mesh-popup-hampers">--- --- Popup Hampers</option>
+    <option value="/collections/clothing-hangers">--- --- Hangers</option>
+    <option value="/collections/binders-accessories">--- --- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- --- Gloves</option>
+    <option value="#">--- --- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- --- Accessories**</option>
+    <option value="#">--- --- --- Shovel</option>
+    <option value="#">--- --- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- --- Ice Salt</option>
+
+    <option value="/collections/electronics">--- --- Electronics**</option>
+    <option value="/collections/fans">--- --- Fans</option>
+    <option value="/collections/sd-cards">--- --- SD Cards</option>
+    <option value="/collections/batteries">--- --- Batteries</option>
+    <option value="/collections/flashlights">--- --- Flashlights</option>
+    <option value="/collections/alarm-clocks">--- --- Alarm Clocks</option>
+    <option value="/collections/binders-accessories">--- --- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- --- Gloves</option>
+    <option value="#">--- --- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- --- Accessories**</option>
+    <option value="#">--- --- --- Shovel</option>
+    <option value="#">--- --- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- --- Ice Salt</option>
+
+    <option value="/collections/cosmetics">--- --- Cosmetics**</option>
+    <option value="/collections/mirrors">--- --- Mirrors</option>
+    <option value="/collections/girls-hair-accessories">--- --- Hair Accessories</option>
+    <option value="/collections/binders-accessories">--- --- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- --- Gloves</option>
+    <option value="#">--- --- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- --- Accessories**</option>
+    <option value="#">--- --- --- Shovel</option>
+    <option value="#">--- --- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- --- Ice Salt</option>
+
+    <option value="/collections/accessories">--- --- Accessories**</option>
+    <option value="/collections/locks">--- --- Locks</option>
+    <option value="/collections/negel-vasser-1">--- --- Negel Vasser</option>
+    <option value="/collections/binders-accessories">--- --- Accessories</option>
+    <option value="/collections/ladies-gloves">--- --- --- Ladies Gloves**</option>
+    <option value="/collections/ladies-gloves">--- --- --- Gloves</option>
+    <option value="/collections/winter-gloves-kids">--- --- --- Girls Gloves &amp; Scarves**</option>
+    <option value="#">--- --- --- Gloves</option>
+    <option value="#">--- --- --- Scarves</option>
+    <option value="/collections/mens-brush-silk-scarves">--- --- --- --- Brush Silk</option>
+    <option value="/collections/cashmere-scarves">--- --- --- --- Cashmere</option>
+    <option value="/collections/cotton-scarves">--- --- --- --- Cotton</option>
+    <option value="/collections/mens-baby-wool-scarves">--- --- --- --- Baby Wool</option>
+    <option value="/collections/wool-scarves">--- --- --- --- Wool</option>
+    <option value="/collections/rabbit-fur-scarves">--- --- --- --- Rabbit Fur</option>
+    <option value="/collections/imitation-fur-scarves">--- --- --- --- Imitation Fur</option>
+    <option value="/collections/acrylic-scarves">--- --- --- --- Acrylic</option>
+    <option value="/collections/white-scarves">--- --- --- --- White Scarves</option>
+
+    <option value="/collections/winter-items">--- --- --- Accessories**</option>
+    <option value="#">--- --- --- Shovel</option>
+    <option value="#">--- --- --- Sleds</option>
+    <option value="/products/ice-salt-10-lb">--- --- --- Ice Salt</option>
+
+
+    <option value="/collections/mattress-pads-1">--- Bedding</option>
+    <option value="/collections/pillows">--- --- Pillows**</option>
+    <option value="/collections/pillows">--- --- Pillows</option>
+    <option value="/collections/pillow-protectors">--- --- Pillow Protector</option>
+    <option value="/collections/comforters">--- --- Comforters**</option>
+    <option value="/collections/comforters">--- --- Comforters</option>
+    <option value="/collections/mattress-pads-1">--- --- Mattress Pads**</option>
+    <option value="/collections/waterproof-mattress-pads">--- --- Waterproof Mattress Pads</option>
+    <option value="/collections/quilted-mattress-pads">--- --- Quilted Mattress Pads</option>
+    <option value="/collections/vinyl-mattress-sheets">--- --- Vinyl Mattress Sheets</option>
+
+    <option value="/collections/summer-activities">--- Outdoor Activities</option>
+    <option value="/collections/pools">--- --- Pools**</option>
+    <option value="/collections/pools">--- --- Pools</option>
+    <option value="/products/50-ft-water-garden-hose">--- --- Water Hose</option>
+    <option value="/products/8-pattern-hose-nozzle">--- --- Hose Nozzle</option>
+    <option value="/collections/pumps">--- --- Pumps</option>
+    <option value="/collections/summer-activities">--- --- Activities**</option>
+    <option value="/collections/bubbles">--- --- Bubbles</option>
+    <option value="/collections/balloons">--- --- Balloons</option>
+    <option value="/collections/sport-bottles">--- --- Sport Bottles</option>
+    <option value="#">--- --- Sidewalk Chalk</option>
+    <option value="/products/water-spray-fan">--- --- Spray Fans</option>
+
+
+
+</select>
+
+
+{%- comment -%} attach scripts (async) and styles from remote assets folder using shop permanent name, cachebust on iteration number (if set) {%- endcomment -%}
+<script src="{{ bucket_source | append: "/" | append: shop.permanent_domain | append: "-catlist.min.js?cbi=" | append: block_version_number | append: "." | append: category_hierarchy_iteration }}" async></script>
+{{ bucket_source | append: "/" | append: shop.permanent_domain | append: "-catlist.css?cbi=" | append: block_version_number | append: "." | append: category_hierarchy_iteration | stylesheet_tag }}
+<!-- End uncomplicated category select box (embed) -->
+
